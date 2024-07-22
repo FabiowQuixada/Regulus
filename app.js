@@ -10,4 +10,9 @@ app.use(bodyParser.urlencoded());
 app.use(adminRoutes);
 app.use(shopRoutes);
 
+app.use((req, res) => {
+    res.status(404)
+        .send('Page not found');
+});
+
 app.listen(3000);
