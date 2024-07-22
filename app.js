@@ -1,37 +1,21 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
 
-const server = http.createServer((req, res) => {
-    console.log(req);
+const app = express();
 
-    const url = req.url;
-    const httpMethod = req.method;
-
-    if (url === '/') {
-        res.write(`
-            <html><body>Send your message!<form action="/message" method="POST">
-            <input type="text" name="message"/><input type="text" name="message2"/><button type="submit">Send</button></form></body></html>
-        `);
-    }
-
-    if (url === '/message' && httpMethod === 'POST') {
-        const body = [];
-
-        req.on('data', chunk => {
-            body.push(chunk);
-        });
-
-        req.on('end', () => {
-            const parsedBody = Buffer.concat(body).toString();
-            console.log(parsedBody)
-            fs.writeFileSync('message.txt', parsedBody);
-        })
-
-        res.statusCode = 302;
-        res.setHeader('Location', '/');
-        const a = res.end();
-        return;
-    }
+app.use('/add-product', (req, res) => {
+    console.log('prod');
+    res.send(`<form action="/product" method="post">
+        <input type="text" name="title" /> <button type="submit">Send</button></form>`);
 });
 
-server.listen(3000);
+app.use('/product', (req, res, next) => {
+
+    res.redirect('/');
+});
+
+app.use('/', (req, res) => {
+    console.log('aaa');
+    res.send('<h1>Home</h1>');
+});
+
+app.listen(3000);
