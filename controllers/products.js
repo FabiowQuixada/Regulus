@@ -21,7 +21,7 @@ const getProducts = (req, res, next) => {
         res.render('shop/product-list', {
             productList,
             pageTitle: 'Shop',
-            path : '/'
+            path : '/products'
         });
     });
 };
