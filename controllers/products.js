@@ -26,8 +26,23 @@ const getProducts = (req, res, next) => {
     });
 };
 
+const getProduct = (req, res, next) => {
+    const productId = req.params.productId;
+
+    Product.findById(productId, product => {
+        console.log(product);
+
+        res.render('shop/product-details', {
+            product,
+            pageTitle: 'Shop',
+            path : '/products'
+        });
+    });
+};
+
 module.exports = {
     getAddProduct,
     postAddProduct,
     getProducts,
+    getProduct,
 };
