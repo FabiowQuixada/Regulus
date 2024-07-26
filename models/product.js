@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const pathUtils = require('../util/path');
 
-const productsDatabase = path.join(pathUtils.root, 'data', 'products.json');
+const productsDatabasePath = path.join(pathUtils.root, 'data', 'products.json');
 
 const getProductListFromFile = (cb) => {
-    fs.readFile(productsDatabase, (err, fileContent) => {
+    fs.readFile(productsDatabasePath, (err, fileContent) => {
         if (!err) {
             return cb(JSON.parse(fileContent));
         }
@@ -23,7 +23,7 @@ module.exports = class Product {
         getProductListFromFile((productList) => {
             productList.push(this);
 
-            fs.writeFile(productsDatabase, JSON.stringify(productList), err2 => {
+            fs.writeFile(productsDatabasePath, JSON.stringify(productList), err2 => {
                 console.log(err2);
             });
         });

@@ -15,6 +15,4 @@ block content
                 h2.product__price #{product.price}
                 p.product__description #{product.description}
             .card__actions
-                form(action="/cart" method="post")
-                    input(type="hidden", name="productId", value=`${product.id}`)
-                    button.btn(type="submit") Add to Cart
+                include ../includes/product/add-to-cart

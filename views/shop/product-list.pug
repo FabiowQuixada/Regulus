@@ -17,6 +17,6 @@ block content
                         p.product__description #{product.description}
                     .card__actions
                         a.btn(href=`/products/${product.id}`) Details
-                        button.btn Add to Cart
+                        include ../includes/product/add-to-cart
     else
         h1 No products
