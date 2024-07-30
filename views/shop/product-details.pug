@@ -16,5 +16,13 @@ block content
             .card__content
                 h2.product__price #{product.price}
                 p.product__description #{product.description}
+                p Author: #{product.author}
+                p Language: #{product.language}
+                p Country: #{product.country}
+                if product.pageQty
+                    p Pages: #{product.pageQty}
+                p Year: #{product.year}
+                if product.moreInfoUrl
+                    p More info: #{product.moreInfoUrl}
             .card__actions
                 include ../includes/product/add-to-cart
