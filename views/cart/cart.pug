@@ -2,3 +2,18 @@ extends ../layouts/cart
 
 block content
     h1 Cart
+
+    each product in cart.productList
+        header.card__header
+            h1.product__title #{product.title} (#{product.id})
+            .card__image
+                img(src=`${product.imageUrl}`, alt="A Book")
+            .card__content
+                h2.product__price #{product.price}
+                p.product__description #{product.qty}
+            .card__actions
+                form(action="/cart/remove-product" method="post")
+                    input(type="hidden", name="productId", value=`${product.id}`)
+                    button.btn(type="submit") Remove from Cart
+
+    include ./minicart

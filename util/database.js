@@ -4,7 +4,7 @@ const pool = mysql.createPool({
     host     : 'localhost',
     user     : 'root',
     database : 'regulus',
-    password : 'my-super-secret-password' // This is literally the password, geez
+    password : 'my-super-secret-password' // TODO This is literally the password, geez
 });
 const poolPromisse = pool.promise();
 

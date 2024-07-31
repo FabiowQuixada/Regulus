@@ -15,6 +15,7 @@ router.get('/products/:productId', productsController.getProduct);
 
 // Cart;
 router.post('/cart/add-product', cartController.addProduct);
+router.post('/cart/remove-product', cartController.removeProduct);
 router.get('/cart', cartController.getCart);
 
 // Other;
