@@ -3,8 +3,14 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const routes  = require('./routes');
 const sequelize = require('./util/database');
+const User = require('./models/user');
 
 const app = express();
+
+app.use((req, res, next) => {
+    User.findByPk(1)
+        .then(user => req.user = user);
+});
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
