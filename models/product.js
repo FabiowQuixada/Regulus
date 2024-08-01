@@ -1,13 +1,25 @@
-const dbUtils = require('../util/database');
+const Sequelize = require('sequelize');
+const sequelize = require('../util/database');
 
-const db = dbUtils.poolPromisse;
+const Product = sequelize.define('product', {
+    id : {
+        type : Sequelize.INTEGER,
+        autoIncrement : true,
+        allowNull: false,
+        primaryKey: true
+    },
+    title : Sequelize.STRING,
+    price : {
+        type : Sequelize.DOUBLE,
+        allowNull: false
+    },
+    imagePath : Sequelize.STRING,
+    author: Sequelize.STRING,
+    pageQty : Sequelize.INTEGER,
+    country : Sequelize.STRING,
+    language: Sequelize.STRING,
+    year : Sequelize.INTEGER,
+    moreInfoUrl : Sequelize.STRING
+});
 
-module.exports = class Product {
-    static fetchAll() {
-        return db.execute('SELECT * from products');
-    }
-
-    static findById(id) {
-        return db.execute(`SELECT * from products where id = ${id}`);
-    }
-};
+module.exports = Product;

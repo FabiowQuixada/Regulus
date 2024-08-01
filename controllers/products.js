@@ -10,8 +10,8 @@ const postAddProduct = (req, res, next) => {
 };
 
 const getProducts = (req, res, next) => {
-    Product.fetchAll()
-        .then(([productList]) => {
+    Product.findAll()
+        .then((productList) => {
             res.render('shop/product-list', {
                 productList,
                 pageTitle: 'Shop',
@@ -24,10 +24,10 @@ const getProducts = (req, res, next) => {
 const getProduct = (req, res, next) => {
     const productId = req.params.productId;
 
-    Product.findById(productId)
-        .then(([productList, fieldData]) => {
+    Product.findByPk(productId)
+        .then(product => {
             res.render('shop/product-details', {
-                product : productList[0],
+                product,
                 pageTitle: 'Shop',
                 path : '/products'
             });

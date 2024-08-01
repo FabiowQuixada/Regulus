@@ -2,9 +2,9 @@ const Product = require('../models/product');
 const Cart = require('../models/cart');
 
 const addProduct = (req, res, next) => {
-    Product.findById(req.body.productId)
-        .then(([productList]) => {
-            Cart.addProduct(productList[0])
+    Product.findByPk(req.body.productId)
+        .then((product) => {
+            Cart.addProduct(product)
                 .then(([dbCart]) => {
                     const cart = Cart.dbToJson(dbCart[0]);
 
