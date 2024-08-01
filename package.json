@@ -9,7 +9,8 @@
     "eslint": "^9.7.0",
     "express": "^4.19.2",
     "mysql2": "^3.11.0",
-    "pug": "^3.0.3"
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.3"
   },
   "devDependencies": {
     "eslint-plugin-jasmine": "^4.2.0",
