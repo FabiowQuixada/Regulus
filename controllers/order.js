@@ -4,17 +4,10 @@ const Order = require('../models/order');
 const User = require('../models/user');
 
 const place = (req, res, next) => {
-    let fetchedUser;
-    // TODO Replace "User.findByPk(1)" with req.user
-    User
-        .findByPk(1)
-        .then(user => {
-            fetchedUser = user;
-            return user.getCart();
-        })
+    req.user.getCart()
         .then(cart => cart.getProducts())
         .then(productList => {
-            fetchedUser.createOrder()
+            req.user.createOrder()
                 .then(order => {
                     // TODO Is there a better way to do this?
                     order.addProducts(productList.map(product => {
@@ -26,7 +19,7 @@ const place = (req, res, next) => {
                     }));
                 });
         })
-        .then(() => fetchedUser.getCart())
+        .then(() => req.user.getCart())
         .then(cart => cart.destroy())
         .then(() => {
             res.redirect('/orders');
@@ -45,12 +38,7 @@ const getOrders = (req, res, next) => {
 };
 
 const getOrder = (req, res, next) => {
-    // TODO Replace "User.findByPk(1)" with req.user
-    User
-        .findByPk(1)
-        .then(user => {
-            return user.getCart();
-        })
+    req.user.getCart()
         .then(cart => {
             return cart.getProducts();
         })

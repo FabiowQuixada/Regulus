@@ -5,18 +5,12 @@ const User = require('../models/user');
 const addProduct = (req, res, next) => {
     const productId = req.body.productId;
     let fectchedCart;
-    let fetchedUser;
     let newQty = 1;
 
-    // TODO Replace "User.findByPk(1)" with req.user
-    User.findByPk(1)
-        .then(user => {
-            fetchedUser = user;
-            return user.getCart();
-        })
+    req.user.getCart()
         .then(cart => {
             if (!cart) {
-                return fetchedUser.createCart();
+                return req.user.createCart();
             }
 
             return cart;
@@ -52,11 +46,7 @@ const addProduct = (req, res, next) => {
 const removeProduct = (req, res, next) => {
     const productId = req.body.productId;
 
-    User
-        .findByPk(1)
-        .then(user => {
-            return user.getCart();
-        })
+    req.user.getCart()
         .then(cart => {
             return cart.getProducts({ where: { id : productId } });
         })
@@ -70,13 +60,12 @@ const removeProduct = (req, res, next) => {
 };
 
 const getCart = (req, res, next) => {
-    // TODO Replace "User.findByPk(1)" with req.user
-    User
-        .findByPk(1)
-        .then(user => {
-            return user.getCart();
-        })
+    req.user
+        .getCart()
         .then(cart => {
+            if (!cart) {
+                return req.user.createCart();
+            }
             return cart.getProducts();
         })
         .then(productList => {

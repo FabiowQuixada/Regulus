@@ -13,13 +13,13 @@ const sequelize = database.sequelize;
 const app = express();
 
 // TODO For some reason this doesn't work. It seems the promisse is called after the actual http request
-// app.use((req, res, next) => {
-//     User.findByPk(1)
-//         .then(user => {
-//             req.user = user;
-//         });
-//     next();
-// });
+app.use((req, res, next) => {
+    User.findByPk(1)
+        .then(user => {
+            req.user = user;
+            next();
+        });
+});
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
