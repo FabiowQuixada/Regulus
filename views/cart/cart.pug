@@ -3,14 +3,14 @@ extends ../layouts/cart
 block content
     h1 Cart
 
-    each product in cart.productList
+    each product in productList
         header.card__header
             h1.product__title #{product.title} (#{product.id})
             .card__image
                 img(src=`${product.imageUrl}`, alt="A Book")
             .card__content
                 h2.product__price #{product.price}
-                p.product__description #{product.qty}
+                p.product__description Quantity: #{product.productLineItem.quantity}
             .card__actions
                 form(action="/cart/remove-product" method="post")
                     input(type="hidden", name="productId", value=`${product.id}`)
