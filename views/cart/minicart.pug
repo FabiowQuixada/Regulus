@@ -2,4 +2,5 @@ div
     //- TODO Use when cart is passed as paremeter to the view;
     //- div #{cart.totalPrice}
 
-button.btn Continue to Checkout
+form(action="/order/place", method="POST")
+    button.btn(type="submit") Continue to Checkout

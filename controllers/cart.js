@@ -5,12 +5,21 @@ const User = require('../models/user');
 const addProduct = (req, res, next) => {
     const productId = req.body.productId;
     let fectchedCart;
+    let fetchedUser;
     let newQty = 1;
 
     // TODO Replace "User.findByPk(1)" with req.user
     User.findByPk(1)
         .then(user => {
+            fetchedUser = user;
             return user.getCart();
+        })
+        .then(cart => {
+            if (!cart) {
+                return fetchedUser.createCart();
+            }
+
+            return cart;
         })
         .then(cart => {
             fectchedCart = cart;
@@ -18,6 +27,7 @@ const addProduct = (req, res, next) => {
         })
         .then(productList => {
             let product;
+
             if (productList.length > 0) {
                 product = productList[0];
             }

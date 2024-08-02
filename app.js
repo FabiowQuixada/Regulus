@@ -6,6 +6,7 @@ const database = require('./util/database');
 const User = require('./models/user');
 const Product = require('./models/product');
 const Cart = require('./models/cart');
+const Order = require('./models/order');
 const ProductLineItem = require('./models/product-line-item');
 
 const sequelize = database.sequelize;
@@ -27,7 +28,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 User.hasOne(Cart);
+User.hasMany(Order);
 Cart.belongsToMany(Product, { through : ProductLineItem });
+Order.belongsToMany(Product, { through : ProductLineItem });
 Product.belongsToMany(Cart, { through : ProductLineItem });
 
 sequelize
