@@ -35,34 +35,27 @@ app.use((req, res, next) => {
         res.locals.isUserLoggedIn = req.session.isUserLoggedIn;
     }
 
-    if (userId && !req.session.isUserLoggedIn) {
+    if (userId && req.session.isUserLoggedIn) {
+        let fetchedUser;
+
         User.findByPk(userId)
             .then(user => {
-                if (user) {
-                    res.redirect('/');
-                } else {
-                    next();
+                fetchedUser = user;
+                return user.getCart();
+            })
+            .then(cart => {
+                if (!cart) {
+                    return fetchedUser.createCart();
                 }
+                return cart.getProducts();
+            })
+            .then(productList => {
+                res.locals.cartProductQty = productList.length;
+                next();
             });
     } else {
         next();
     }
-});
-
-app.use((req, res, next) => {
-    req.user
-        .getCart()
-        .then(cart => {
-            if (!cart) {
-                return req.user.createCart();
-            }
-            return cart.getProducts();
-        })
-        .then(productList => {
-            res.locals.cartProductQty = productList.length;
-            next();
-        })
-        .catch( err => {console.log(err);});
 });
 
 app.set('view engine', 'pug');
