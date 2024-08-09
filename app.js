@@ -49,11 +49,21 @@ app.use((req, res, next) => {
     }
 });
 
-app.use(session({
-    secret            : 'my-secret', // TODO
-    resave            : false,
-    saveUninitialized : false
-}));
+app.use((req, res, next) => {
+    req.user
+        .getCart()
+        .then(cart => {
+            if (!cart) {
+                return req.user.createCart();
+            }
+            return cart.getProducts();
+        })
+        .then(productList => {
+            res.locals.cartProductQty = productList.length;
+            next();
+        })
+        .catch( err => {console.log(err);});
+});
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
