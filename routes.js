@@ -4,6 +4,7 @@ const homeController     = require('./controllers/home');
 const productsController = require('./controllers/products');
 const errorsController   = require('./controllers/errors');
 const cartController     = require('./controllers/cart');
+const checkoutController = require('./controllers/checkout');
 const orderController    = require('./controllers/order');
 const authController  = require('./controllers/auth');
 
@@ -24,6 +25,9 @@ router.post('/logout', authController.postLogout);
 router.post('/cart/add-product', cartController.addProduct);
 router.post('/cart/remove-product', cartController.removeProduct);
 router.get('/cart', cartController.show);
+
+// Checkout;
+router.get('/checkout', checkoutController.show);
 
 // Order;
 router.post('/order/place', orderController.place);
