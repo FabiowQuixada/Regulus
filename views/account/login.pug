@@ -1,0 +1,15 @@
+extends ../layouts/main
+
+block styles
+    link(rel='stylesheet', href='/css/form')
+
+block content 
+    div Login
+        form(action="/login", class="form-login" method="POST")
+            div.form-control
+                label(for="email") E-mail
+                input(type="text", name="email", id="email")
+            div.form-control
+                label(for="password") Password
+                input(type="password", name="password", id="password")
+            button.btn(type="submit") Login

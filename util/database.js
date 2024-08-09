@@ -6,7 +6,8 @@ const pathUtils = require('./path');
 
 // TODO Save password somewhere else;
 const sequelize = new Sequelize('regulus', 'root', 'my-super-secret-password', {
-    dialect : 'mysql'
+    dialect : 'mysql',
+    storage: './session.sqlite',
 });
 
 const loadDatabaseProductData = () => {

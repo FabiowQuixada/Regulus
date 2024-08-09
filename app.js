@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const routes  = require('./routes');
 const database = require('./util/database');
 const User = require('./models/user');
@@ -12,14 +14,46 @@ const ProductLineItem = require('./models/product-line-item');
 const sequelize = database.sequelize;
 const app = express();
 
+app.use(
+    session({
+        secret: 'keyboard cat',
+        store: new SequelizeStore({
+            db: database.sequelize,
+        }),
+        resave: false, // we support the touch method so per the express-session docs this should be set to false
+        proxy: true, // if you do SSL outside of node.
+    })
+);
+
 // TODO For some reason this doesn't work. It seems the promisse is called after the actual http request
 app.use((req, res, next) => {
-    User.findByPk(1)
-        .then(user => {
-            req.user = user;
-            next();
-        });
+    const userId = req.session.user ? req.session.user.id : null;
+
+    // TODO Check if it's possible to put it in session only;
+    if (req.session.user) {
+        res.locals.userName       = req.session.user.name;
+        res.locals.isUserLoggedIn = req.session.isUserLoggedIn;
+    }
+
+    if (userId && !req.session.isUserLoggedIn) {
+        User.findByPk(userId)
+            .then(user => {
+                if (user) {
+                    res.redirect('/');
+                } else {
+                    next();
+                }
+            });
+    } else {
+        next();
+    }
 });
+
+app.use(session({
+    secret            : 'my-secret', // TODO
+    resave            : false,
+    saveUninitialized : false
+}));
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
@@ -34,8 +68,8 @@ Order.belongsToMany(Product, { through : ProductLineItem });
 Product.belongsToMany(Cart, { through : ProductLineItem });
 
 sequelize
-    // .sync({ force : true})
     .sync();
+// .sync({ force : true})
 // .then(result => {
 //     database.loadDatabaseProductData();
 // })
