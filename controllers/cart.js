@@ -59,7 +59,7 @@ const removeProduct = (req, res, next) => {
         });
 };
 
-const getCart = (req, res, next) => {
+const show = (req, res, next) => {
     req.user
         .getCart()
         .then(cart => {
@@ -70,7 +70,7 @@ const getCart = (req, res, next) => {
         })
         .then(productList => {
             // TODO Pass cart as parameter instead
-            res.render('cart/cart', {
+            res.render('cart/index', {
                 productList
             });})
         .catch( err => {console.log(err);});
@@ -86,6 +86,6 @@ const emptyCart = () => {
 module.exports = {
     addProduct,
     removeProduct,
-    getCart,
+    show,
     emptyCart,
 };

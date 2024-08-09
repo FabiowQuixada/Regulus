@@ -23,7 +23,7 @@ router.post('/logout', authController.postLogout);
 // Cart;
 router.post('/cart/add-product', cartController.addProduct);
 router.post('/cart/remove-product', cartController.removeProduct);
-router.get('/cart', cartController.getCart);
+router.get('/cart', cartController.show);
 
 // Order;
 router.post('/order/place', orderController.place);
