@@ -1,7 +1,7 @@
 const User = require('../models/user');
 
 const getSignup = (req, res, next) => {
-    res.render('account/signup', {
+    res.render('auth/signup', {
     });
 };
 
@@ -31,7 +31,7 @@ const postSignup = (req, res, next) => {
 };
 
 const getLogin = (req, res, next) => {
-    res.render('account/login', {
+    res.render('auth/login', {
     });
 };
 
@@ -118,7 +118,7 @@ const getResetPassword = (req, res, next) => {
         resetPasswordTokenExpDate: { $gt: Date.now() } // TODO Not working
     })
         .then(user => {
-            res.render('account/new-passord', {
+            res.render('auth/new-passord', {
                 userId : user.id
             });
 
@@ -133,7 +133,7 @@ const postSaveNewPassword = (req, res, next) => {
     const confirmNewPassword = req.body['confirm-new-password'];
 
     if (newPassword !== confirmNewPassword) {
-        redirect('/account/new-password');
+        redirect('/auth/new-password');
         return;
     }
 
