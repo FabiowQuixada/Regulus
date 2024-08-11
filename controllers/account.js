@@ -21,7 +21,10 @@ const getOrders = (req, res, next) => {
     if (userId) {
         let fetchedUser;
         User.findByPk(userId)
-            .then(user => user.getOrders({include: ['products']}))
+            .then(user => user.getOrders({
+                include : ['products'],
+                order   : [ [ 'createdAt', 'DESC'] ]
+            }))
             .then(orderList => {
                 res.render('account/order/index', {
                     orderList
