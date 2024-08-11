@@ -1,14 +1,6 @@
 
 const Product = require('../models/product');
 
-const postAddProduct = (req, res, next) => {
-    const newProduct = new Product(req.body.title);
-
-    newProduct.save();
-
-    res.redirect('/');
-};
-
 const getProducts = (req, res, next) => {
     Product.findAll()
         .then((productList) => {
@@ -36,7 +28,6 @@ const getProduct = (req, res, next) => {
 };
 
 module.exports = {
-    postAddProduct,
     getProducts,
     getProduct,
 };
