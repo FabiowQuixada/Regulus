@@ -71,24 +71,24 @@ Order.belongsToMany(Product, { through : ProductLineItem });
 Product.belongsToMany(Cart, { through : ProductLineItem });
 
 sequelize
-    .sync();
-// .sync({ force : true})
+    .sync()
+    // .sync({ force : true})
 // .then(result => {
 //     database.loadDatabaseProductData();
 // })
-// .then(result => {
-//     return User.findByPk(1);
-// })
-// .then(user => {
-//     if (!user) {
-//         return User.create({
-//             name: 'Fabiow',
-//             email: 'ftquixada@gmail.com'
-//         });
-//     }
+    .then(result => {
+        return User.findByPk(1);
+    })
+    .then(user => {
+        if (!user) {
+            return User.create({
+                name: 'Fabiow',
+                email: 'ftquixada@gmail.com'
+            });
+        }
 
-//     return user;
-// })
+        return user;
+    });
 // .then(user => {
 //     user.createCart();
 // })
