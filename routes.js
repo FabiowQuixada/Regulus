@@ -38,7 +38,7 @@ router.get('/checkout', checkoutController.show);
 router.get('/account', checkAuthentication, accountController.show);
 
 // Order;
-router.post('/order/place', orderController.place);
+router.post('/orders/place', orderController.place);
 router.get('/orders', orderController.getOrders);
 router.get('/order/:orderId', orderController.getOrder);
 

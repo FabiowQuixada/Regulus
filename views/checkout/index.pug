@@ -6,3 +6,6 @@ block content
     include login-step
     include shipping-step
     include payment-step
+
+    form(action="orders/place", method="POST")
+        button.btn(type="submit") Place Order
