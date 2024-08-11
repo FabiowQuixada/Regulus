@@ -40,7 +40,6 @@ router.get('/account', checkAuthentication, accountController.show);
 // Order;
 router.post('/orders/place', orderController.place);
 router.get('/orders', orderController.getOrders);
-router.get('/order/:orderId', orderController.getOrder);
 
 // Other;
 router.get(errorsController.get404);
