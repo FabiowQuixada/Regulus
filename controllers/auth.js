@@ -1,4 +1,3 @@
-const Product = require('../models/product');
 const User = require('../models/user');
 
 const getSignup = (req, res, next) => {
@@ -7,7 +6,6 @@ const getSignup = (req, res, next) => {
 };
 
 const postSignup = (req, res, next) => {
-    const bcrypt = require('bcryptjs');
     const email = req.body.email;
     const password = req.body.password;
     const passwordConfirmation = req.body.passwordConfirmation;
@@ -38,7 +36,6 @@ const getLogin = (req, res, next) => {
 };
 
 const postLogin = (req, res, next) => {
-    const bcrypt = require('bcryptjs');
     const email = req.body.email;
     const password = req.body.password;
 
@@ -68,10 +65,101 @@ const postLogout = (req, res, next) => {
     });
 };
 
+const postResetPassword = (req, res, next) => {
+    const crypto = require('crypto');
+
+    crypto.randomBytes(32, (err, buffer) => {
+        if (err) {
+            console.log(err);
+            res.redirect('/login');
+            return;
+        }
+        const token = buffer.toString('hex');
+        const inputEmail = req.body.email;
+
+        User
+            .findOne({ where: { email: inputEmail }})
+            .then(user => {
+                if (!user) {
+                    console.log('user not found');
+                    res.redirect('/login');
+                    return;
+                }
+
+                user.resetPasswordToken = token;
+                user.resetPasswordTokenExpDate = Date.now() + 3600;
+
+                return user.save();
+            })
+            .then(user => {
+                const mailer = require('../util/mailer');
+
+                res.redirect('/');
+
+                return mailer.send(inputEmail, 'Password Reset', `
+                    <p>
+                        Please click <a href="http://localhost:3000/reset-password/${token}">here</a> to reset your password.
+                    </p>
+                    `);
+            })
+            .catch(err2 => {
+                console.log(err2);
+                res.redirect('/login');
+                return;
+            });
+    });
+};
+
+const getResetPassword = (req, res, next) => {
+    const token = req.params.token;
+
+    User.findOne({
+        resetPasswordToken: token,
+        resetPasswordTokenExpDate: { $gt: Date.now() } // TODO Not working
+    })
+        .then(user => {
+            res.render('account/new-passord', {
+                userId : user.id
+            });
+
+        });
+
+};
+
+const postSaveNewPassword = (req, res, next) => {
+    const userId             = req.body['user-id'];
+    const currentPassword    = req.body['current-password'];
+    const newPassword        = req.body['new-password'];
+    const confirmNewPassword = req.body['confirm-new-password'];
+
+    if (newPassword !== confirmNewPassword) {
+        redirect('/account/new-password');
+        return;
+    }
+
+    User.findByPk(userId)
+        .then(user => {
+            // TODO Encrypt password in the databse;
+            if (user && currentPassword === user.password) {
+                user.password = newPassword;
+                user.resetPasswordToken = null;
+                user.resetPasswordTokenExpDate = null;
+                user.save();
+
+                res.redirect('/');
+            } else {
+                res.redirect('/login');
+            }
+        });
+};
+
 module.exports = {
     getSignup,
     postSignup,
     getLogin,
     postLogin,
     postLogout,
+    postResetPassword,
+    getResetPassword,
+    postSaveNewPassword,
 };

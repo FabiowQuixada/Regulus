@@ -10,6 +10,8 @@ const User = sequelize.define('user', {
     },
     name : Sequelize.STRING,
     email : Sequelize.STRING,
+    resetPasswordToken : Sequelize.STRING,
+    resetPasswordTokenExpDate : Sequelize.DATE,
     password : Sequelize.STRING
 });
 

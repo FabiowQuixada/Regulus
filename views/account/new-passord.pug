@@ -1,0 +1,19 @@
+extends ../layouts/main
+
+block styles
+    link(rel='stylesheet', href='/css/form')
+
+block content 
+    h1 Reset Password
+    form(action="/save-new-password", class="form-login" method="POST")
+        div.form-control
+            label(for="current-password") Current password
+            input(type="password", name="current-password", id="current-password")
+        div.form-control
+            label(for="new-password") Password
+            input(type="password", name="new-password", id="new-password")
+        div.form-control
+            label(for="confirm-new-password") Confirm password
+            input(type="password", name="confirm-new-password", id="confirm-new-password")
+        input(type="hidden", name="user-id", value=`${userId}`)
+        button.btn(type="submit") Save Password

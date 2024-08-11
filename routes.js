@@ -20,6 +20,9 @@ router.post('/login', authController.postLogin);
 router.get('/signup', authController.getSignup);
 router.post('/signup', authController.postSignup);
 router.post('/logout', authController.postLogout);
+router.get('/reset-password/:token', authController.getResetPassword);
+router.post('/reset-password', authController.postResetPassword);
+router.post('/save-new-password', authController.postSaveNewPassword);
 
 // Cart;
 router.post('/cart/add-product', cartController.addProduct);

@@ -13,3 +13,9 @@ block content
                 label(for="password") Password
                 input(type="password", name="password", id="password")
             button.btn(type="submit") Login
+        
+        form(action="/reset-password", class="form-reset-password" method="POST")
+            div.form-control
+                label(for="email") E-mail
+                input(type="text", name="email", id="email")
+            button.btn(type="submit") Reset Password
