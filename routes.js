@@ -1,12 +1,14 @@
 const express = require('express');
 
-const homeController     = require('./controllers/home');
-const productsController = require('./controllers/products');
-const errorsController   = require('./controllers/errors');
-const cartController     = require('./controllers/cart');
-const checkoutController = require('./controllers/checkout');
-const orderController    = require('./controllers/order');
-const authController  = require('./controllers/auth');
+const homeController      = require('./controllers/home');
+const productsController  = require('./controllers/products');
+const errorsController    = require('./controllers/errors');
+const cartController      = require('./controllers/cart');
+const checkoutController  = require('./controllers/checkout');
+const accountController   = require('./controllers/account');
+const orderController     = require('./controllers/order');
+const authController      = require('./controllers/auth');
+const checkAuthentication = require('./middleware/check-authentication');
 
 const router = express.Router();
 
@@ -31,6 +33,9 @@ router.get('/cart', cartController.show);
 
 // Checkout;
 router.get('/checkout', checkoutController.show);
+
+// Account;
+router.get('/account', checkAuthentication, accountController.show);
 
 // Order;
 router.post('/order/place', orderController.place);

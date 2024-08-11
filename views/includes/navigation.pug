@@ -13,7 +13,9 @@ block navigation
                 if cartProductQty > 0
                     div (#{cartProductQty})
                 if isUserLoggedIn
-                    div Hi, #{userName}!
+                    div Hi, 
+                    a(href="/account") #{userName}
+                    div !
                     li.main-header__item
                         form(action="/logout", method="POST")
                             button.btn(type="submit") Logout
