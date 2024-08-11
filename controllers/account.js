@@ -1,12 +1,15 @@
-const User = require('../models/user');
+const Order = require('../models/order');
 
 const show = (req, res, next) => {
     const userId = req.session.user.id;
-
-    User.findByPk(userId)
-        .then(user => {
+    Order
+        .findOne({
+            where: { userId    : req.session.user.id },
+            order: [[ 'createdAt', 'DESC' ]]
+        })
+        .then(lastOrder => {
             res.render('account/index', {
-
+                lastOrder
             });
         });
 };
