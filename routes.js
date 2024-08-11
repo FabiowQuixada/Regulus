@@ -6,7 +6,6 @@ const errorsController    = require('./controllers/errors');
 const cartController      = require('./controllers/cart');
 const checkoutController  = require('./controllers/checkout');
 const accountController   = require('./controllers/account');
-const orderController     = require('./controllers/order');
 const authController      = require('./controllers/auth');
 const checkAuthentication = require('./middleware/check-authentication');
 
@@ -16,7 +15,7 @@ router.get('/', homeController.getHome);
 router.get('/products', productsController.getProducts);
 router.get('/products/:productId', productsController.getProduct);
 
-// Account;
+// Authentication;
 router.get('/login', authController.getLogin);
 router.post('/login', authController.postLogin);
 router.get('/signup', authController.getSignup);
@@ -32,14 +31,12 @@ router.post('/cart/remove-product', cartController.removeProduct);
 router.get('/cart', cartController.show);
 
 // Checkout;
+router.post('/checkout/place-order', checkoutController.placeOrder);
 router.get('/checkout', checkoutController.show);
 
 // Account;
+router.get('/account/orders', accountController.getOrders);
 router.get('/account', checkAuthentication, accountController.show);
-
-// Order;
-router.post('/orders/place', orderController.place);
-router.get('/orders', orderController.getOrders);
 
 // Other;
 router.get(errorsController.get404);

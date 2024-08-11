@@ -7,5 +7,5 @@ block content
     include shipping-step
     include payment-step
 
-    form(action="orders/place", method="POST")
+    form(action="/checkout/place-order", method="POST")
         button.btn(type="submit") Place Order
