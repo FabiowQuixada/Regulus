@@ -1,4 +1,5 @@
 const express = require('express');
+const { body } = require('express-validator');
 
 const homeController      = require('./controllers/home');
 const productsController  = require('./controllers/products');
@@ -8,6 +9,8 @@ const checkoutController  = require('./controllers/checkout');
 const accountController   = require('./controllers/account');
 const authController      = require('./controllers/auth');
 const checkAuthentication = require('./middleware/check-authentication');
+const { validateForm }    = require('./middleware/form');
+const User                = require('./models/user');
 
 const router = express.Router();
 
@@ -17,13 +20,60 @@ router.get('/products/:productId', productsController.getProduct);
 
 // Authentication;
 router.get('/login', authController.getLogin);
-router.post('/login', authController.postLogin);
 router.get('/signup', authController.getSignup);
-router.post('/signup', authController.postSignup);
-router.post('/logout', authController.postLogout);
 router.get('/reset-password/:token', authController.getResetPassword);
-router.post('/reset-password', authController.postResetPassword);
-router.post('/save-new-password', authController.postSaveNewPassword);
+router.post('/logout', authController.postLogout);
+
+router.post(
+    '/login',
+    body('email', 'Invalid e-mail').isEmail(),
+    validateForm('auth/login'),
+    authController.postLogin
+);
+
+router.post(
+    '/signup',
+    body('email', 'Invalid e-mailooo').isEmail(),
+    // TODO CHeck docs to make custom validation work;
+    // .custom(value => {
+    //     User.findOne({ where: { email : value } })
+    //         .then(user => {
+    //             if (user) {
+    //                 return Promise.reject('E-mail is already registered');
+    //             }
+
+    //             return Promise.resolve();
+    //         });
+    // }),
+    body('password', 'Invalid password').isLength({ min: 5 }),
+    body('password-confirmation', 'Passwords must match').custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error();
+        }
+
+        return true;
+    }),
+    validateForm('auth/signup'),
+    authController.postSignup
+);
+
+router.post('/reset-password',
+    body('recovery-email', 'Invalid e-mail').isEmail(),
+    validateForm('auth/login'),
+    authController.postResetPassword
+);
+
+router.post('/save-new-password',
+    body('password', 'Invalid password').isLength({ min: 5 }),
+    body('password-confirmation', 'Passwords must match').custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error();
+        }
+
+        return true;
+    }),
+    authController.postSaveNewPassword
+);
 
 // Cart;
 router.post('/cart/add-product', cartController.addProduct);

@@ -2,36 +2,24 @@ const User = require('../models/user');
 
 const getSignup = (req, res, next) => {
     res.render('auth/signup', {
+        userInput   : {},
+        fieldErrors : {},
     });
 };
 
 const postSignup = (req, res, next) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    const passwordConfirmation = req.body.passwordConfirmation;
+    User.create({
+        email    : req.body.email,
+        password : req.body.password
+    });
 
-    User.findOne({ where: { email } })
-        .then(user => {
-            if (user) {
-
-            } else {
-                // TODO Encrypt password;
-                // bcrypt
-                //     .hash(password, 12)
-                // .then(encryptedPassword => {
-                User.create({
-                    email,
-                    password : password
-                });
-                // });
-            }
-        });
-
-    res.redirect('/');
+    res.redirect('/account');
 };
 
 const getLogin = (req, res, next) => {
     res.render('auth/login', {
+        userInput   : {},
+        fieldErrors : {},
     });
 };
 
@@ -46,10 +34,20 @@ const postLogin = (req, res, next) => {
                 req.session.save(err => {
                     req.session.isUserLoggedIn = true;
                     req.session.user = user;
-                    res.redirect('/');
+                    res.redirect('/account');
                 });
             } else {
-                res.redirect('/login');
+                // TODO It doesn't work;
+                res
+                    .status(402)
+                    .render('/auth/login', {
+                        // userInput   : req.body,
+                        fieldErrors : {
+                            password: 'Incorrect e-mail or password.'
+                        }
+                    });
+
+                return;
             }
         });
 };
@@ -75,7 +73,7 @@ const postResetPassword = (req, res, next) => {
             return;
         }
         const token = buffer.toString('hex');
-        const inputEmail = req.body.email;
+        const inputEmail = req.body['recovery-email'];
 
         User
             .findOne({ where: { email: inputEmail }})

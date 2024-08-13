@@ -1,18 +1,37 @@
 extends ../layouts/main
 
 block styles
-    link(rel='stylesheet', href='/css/form')
+    link(rel='stylesheet', href='/css/form.css', type='text/css')
 
 block content 
     div Signup
         form(action="/signup", class="form-login" method="POST")
             div.form-control
                 label(for="email") E-mail
-                input(type="text", name="email", id="email")
+                input(
+                    type="text",
+                    name="email",
+                    class=`${fieldErrors.email ? 'invalid' : ''}`
+                    id="email",
+                    value=`${userInput.email || ''}`)
+                .error-message #{fieldErrors.email}
             div.form-control
                 label(for="password") Password
-                input(type="password", name="password", id="password")
+                input(
+                    type="password",
+                    name="password",
+                    class=`${fieldErrors.password ? 'invalid' : ''}`
+                    id="password",
+                    value=`${userInput.password || ''}`)
+                .error-message #{fieldErrors.password}
+                div Password should have at least 5 characters.
             div.form-control
                 label(for="password-confirmation") Password Confirmation
-                input(type="password", name="password-confirmation", id="password-confirmation")
+                input(
+                    type="password",
+                    name="password-confirmation",
+                    class=`${fieldErrors['password-confirmation'] ? 'invalid' : ''}`
+                    id="password-confirmation",
+                    value=`${userInput['password-confirmation'] || ''}`)
+                .error-message #{fieldErrors['password-confirmation']}
             button.btn(type="submit") Signup
