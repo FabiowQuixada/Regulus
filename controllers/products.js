@@ -4,7 +4,7 @@ const Product = require('../models/product');
 const getProducts = (req, res, next) => {
     Product.findAll()
         .then((productList) => {
-            res.render('shop/product-list', {
+            res.render('product/product-list', {
                 productList,
                 pageTitle: 'Shop',
                 path : '/products'
@@ -18,7 +18,7 @@ const getProduct = (req, res, next) => {
 
     Product.findByPk(productId)
         .then(product => {
-            res.render('shop/product-details', {
+            res.render('product/product-details', {
                 product,
                 pageTitle: 'Shop',
                 path : '/products'
