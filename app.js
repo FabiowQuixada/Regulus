@@ -64,6 +64,10 @@ app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
+app.use((error, req, res, next) => {
+    res.redirect('/500');
+});
+
 User.hasOne(Cart);
 User.hasMany(Order);
 Cart.belongsToMany(Product, { through : ProductLineItem });

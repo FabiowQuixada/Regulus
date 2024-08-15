@@ -5,6 +5,14 @@ const get404 = (req, res, next) => {
         });
 };
 
+const get500 = (req, res, next) => {
+    res.status(500)
+        .render('errors/500', {
+            pageTitle: 'Internal Server Error'
+        });
+};
+
 module.exports = {
     get404,
+    get500,
 };

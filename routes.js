@@ -89,6 +89,7 @@ router.get('/account/orders', accountController.getOrders);
 router.get('/account', checkAuthentication, accountController.show);
 
 // Other;
+router.get('/500', errorsController.get500);
 router.use(errorsController.get404);
 
 module.exports = router;
