@@ -1,11 +1,17 @@
 extends ../layouts/main
 
+block jsIncludes
+    script(src="https://js.stripe.com/v3/")
+    script(src="https://code.jquery.com/jquery-3.5.1.min.js")
+    script(src="/js/checkout.js", type="module")
+
 block content
-    h1 Checkout
+    h1 Checkout (#{currentStep})
 
     include login-step
     include shipping-step
     include payment-step
+    include review-step
 
     form(action="/checkout/place-order", method="POST")
         button.btn(type="submit") Place Order

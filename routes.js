@@ -81,8 +81,8 @@ router.post('/cart/remove-product', cartController.removeProduct);
 router.get('/cart', cartController.show);
 
 // Checkout;
-router.post('/checkout/place-order', checkoutController.placeOrder);
 router.get('/checkout', checkoutController.show);
+router.post('/checkout/place-order', checkoutController.placeOrder);
 
 // Account;
 router.get('/account/orders', accountController.getOrders);
