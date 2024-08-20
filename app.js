@@ -65,7 +65,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 app.use((error, req, res, next) => {
-    res.redirect('/500');
+    res.redirect('/500', {
+        error
+    });
 });
 
 User.hasOne(Cart);
