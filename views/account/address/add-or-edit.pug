@@ -1,0 +1,8 @@
+extends ../../layouts/main
+
+block styles
+    link(rel='stylesheet', href='/css/form')
+
+block content 
+    div #{mode === 'new' ? 'New Address' : 'Edit Address'}
+        include ./form

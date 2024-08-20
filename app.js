@@ -5,11 +5,14 @@ const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const routes  = require('./routes');
 const database = require('./util/database');
-const User = require('./models/user');
-const Product = require('./models/product');
-const Cart = require('./models/cart');
-const Order = require('./models/order');
+
+// Sequelize Models
+const User            = require('./models/user');
+const Product         = require('./models/product');
+const Cart            = require('./models/cart');
+const Order           = require('./models/order');
 const ProductLineItem = require('./models/product-line-item');
+const Address         = require('./models/address');
 
 const sequelize = database.sequelize;
 const app = express();
@@ -72,6 +75,7 @@ app.use((error, req, res, next) => {
 
 User.hasOne(Cart);
 User.hasMany(Order);
+User.hasMany(Address);
 Cart.belongsToMany(Product, { through : ProductLineItem });
 Order.belongsToMany(Product, { through : ProductLineItem });
 Product.belongsToMany(Cart, { through : ProductLineItem });

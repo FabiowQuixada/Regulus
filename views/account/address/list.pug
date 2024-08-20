@@ -1,0 +1,22 @@
+extends ../../layouts/main
+
+block content
+    h1 My Addresses
+
+    each address in addressList
+        header.card__header
+            b 
+                div #{address.name}
+            div #{address.street  }
+            div #{address.city    }
+            div #{address.state   }
+            div #{address.zip     }
+            div #{address.country }
+
+            if address.isMain
+                div True
+            else 
+                div False
+
+
+    a(href="/account/addresses/new") New Address

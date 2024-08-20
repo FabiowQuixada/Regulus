@@ -87,6 +87,10 @@ router.post('/checkout/place-order', checkoutController.placeOrder);
 // Account;
 router.get('/account/orders', accountController.getOrders);
 router.get('/account', checkAuthentication, accountController.show);
+router.get('/account/orders', accountController.getOrders);
+router.get('/account/addresses', accountController.getAddresses);
+router.get('/account/addresses/new', accountController.getAddOrEditAddress);
+router.post('/account/addresses', accountController.postSaveAddress);
 
 // Other;
 router.get('/500', errorsController.get500);

@@ -1,0 +1,14 @@
+form(action=`${formAction}` method="POST")
+    .form-group
+        input(type="hidden", class="form-control", name="id", value=`${address.id || ''}`)
+        input(type="text", class="form-control", name="name",   value=`${address.name || ''}` placeholder="Address Name")
+        input(type="text", class="form-control", name="street", value=`${address.street || ''}` placeholder="Street")
+        input(type="text", class="form-control", name="city",   value=`${address.city || ''}` placeholder="City")
+        input(type="text", class="form-control", name="state",  value=`${address.state || ''}` placeholder="State")
+        input(type="text", class="form-control", name="zip",    value=`${address.zip || ''}` placeholder="Zip")
+        input(type="text", class="form-control", name="country" value=`${address.country || ''}` placeholder="Country")
+        input(type="checkbox", class="form-control", name="is-main", checked=address.isMain)
+        div Set as main address
+    div.buttons
+        button(type="submit", class="submit-address") Save
+        a(href="/account/addresses") Back
