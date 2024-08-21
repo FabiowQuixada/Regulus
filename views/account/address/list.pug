@@ -18,5 +18,8 @@ block content
             else 
                 div False
 
+            form(action=`/account/addresses/delete` method="POSt")
+                input(type="hidden", name="address-id", value=address.id)
+                button.btn(type="submit") Delete
 
     a(href="/account/addresses/new") New Address

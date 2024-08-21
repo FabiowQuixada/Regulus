@@ -91,6 +91,7 @@ router.get('/account/orders', accountController.getOrders);
 router.get('/account/addresses', accountController.getAddresses);
 router.get('/account/addresses/new', accountController.getAddOrEditAddress);
 router.post('/account/addresses', accountController.postSaveAddress);
+router.post('/account/addresses/delete', accountController.deleteAddress);
 
 // Other;
 router.get('/500', errorsController.get500);

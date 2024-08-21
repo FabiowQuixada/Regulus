@@ -116,10 +116,22 @@ const postSaveAddress = (req, res, next) => {
     }
 };
 
+const deleteAddress = (req, res, next) => {
+    const addressId = req.body['address-id'];
+
+    Address
+        .findByPk(addressId)
+        .then(address => address.destroy())
+        .then(() => {
+            res.redirect('/account/addresses');
+        });
+};
+
 module.exports = {
     show,
     getOrders,
     getAddresses,
     getAddOrEditAddress,
     postSaveAddress,
+    deleteAddress,
 };
