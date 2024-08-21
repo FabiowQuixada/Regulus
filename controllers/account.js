@@ -35,7 +35,7 @@ const getOrders = (req, res, next) => {
 };
 
 const getAddresses = (req, res, next) => {
-    const userId = req.session.user ? req.session.user.id : null;
+    const userId = req.session.user ? req.session.user.id : 1;
 
     if (userId) {
         let fetchedUser;
@@ -47,6 +47,9 @@ const getAddresses = (req, res, next) => {
                 res.render('account/address/list', {
                     addressList
                 });
+            })
+            .catch(err => {
+                console.log(err);
             });
     }
 };
@@ -74,15 +77,7 @@ const getAddOrEditAddress = (req, res, next) => {
 
 const postSaveAddress = (req, res, next) => {
     const userId = req.session.user ? req.session.user.id : 1;
-
-
-    // Address.create({
-    //     street : req.body.street,
-    //     city   : req.body.city,
-    //     state  : req.body.state,
-    //     zip    : req.body.zip,
-    //     isMain : req.body.isMain
-    // });
+    const addressId = req.body.id;
 
     // TODO Display success message to user;
     if (userId) {
@@ -94,24 +89,37 @@ const postSaveAddress = (req, res, next) => {
                 return user;
             })
             .then(user => {
-                user.createAddress({
-                    name    : req.body.name,
-                    street  : req.body.street,
-                    city    : req.body.city,
-                    state   : req.body.state,
-                    zip     : req.body.zip,
-                    country : req.body.country,
-                    isMain  : req.body['is-main'] === 'on'
-                })
-                    .catch(e => {
-                        console.log(e);
+                if (addressId) {
+                    Address.findByPk(addressId)
+                        .then((address) => {
+                            if (address) {
+                                address.name    = req.body.name;
+                                address.street  = req.body.street;
+                                address.city    = req.body.city;
+                                address.state   = req.body.state;
+                                address.zip     = req.body.zip;
+                                address.country = req.body.country;
+                                address.isMain  = req.body['is-main'] === 'on';
+                                address.save();
+                            }
+                        });
+                } else {
+                    user.createAddress({
+                        name    : req.body.name,
+                        street  : req.body.street,
+                        city    : req.body.city,
+                        state   : req.body.state,
+                        zip     : req.body.zip,
+                        country : req.body.country,
+                        isMain  : req.body['is-main'] === 'on'
                     });
+                }
             })
             .then(() => {
                 res.redirect('/account/addresses');
             })
             .catch(ee => {
-                console.log(e);
+                console.log(ee);
             });
     }
 };
