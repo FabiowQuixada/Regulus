@@ -1,6 +1,7 @@
 const Order = require('../models/order');
 const User = require('../models/user');
 const Address = require('../models/address');
+const { Op } = require('sequelize');
 
 const show = (req, res, next) => {
     const userId = req.session.user.id;
@@ -89,21 +90,42 @@ const postSaveAddress = (req, res, next) => {
                 return user;
             })
             .then(user => {
+                const isMainAddress = req.body['is-main'] === 'on';
+
                 if (addressId) {
                     Address.findByPk(addressId)
                         .then((address) => {
                             if (address) {
+                                if (isMainAddress) {
+                                    Address.update(
+                                        { isMain : false },
+                                        { where : {
+                                            id : { [Op.not]: addressId }
+                                        }}
+                                    );
+                                }
+
                                 address.name    = req.body.name;
                                 address.street  = req.body.street;
                                 address.city    = req.body.city;
                                 address.state   = req.body.state;
                                 address.zip     = req.body.zip;
                                 address.country = req.body.country;
-                                address.isMain  = req.body['is-main'] === 'on';
+                                address.isMain  = isMainAddress;
                                 address.save();
+
                             }
                         });
                 } else {
+                    if (isMainAddress) {
+                        Address.update(
+                            { isMain : false },
+                            { where : {
+                                id : { [Op.not]: addressId }
+                            }}
+                        );
+                    }
+
                     user.createAddress({
                         name    : req.body.name,
                         street  : req.body.street,
