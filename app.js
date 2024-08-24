@@ -70,6 +70,8 @@ User.hasOne(Cart);
 User.hasMany(Order);
 User.hasMany(Address);
 Cart.belongsToMany(Product, { through : ProductLineItem });
+Cart.belongsTo(Address, { as: 'shippingAddress' });
+Cart.belongsTo(Address, { as: 'billingAddress' });
 Order.belongsToMany(Product, { through : ProductLineItem });
 Product.belongsToMany(Cart, { through : ProductLineItem });
 

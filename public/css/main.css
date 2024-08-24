@@ -106,3 +106,7 @@ main {
   background-color: #00695c;
   color: white;
 }
+
+[status="unselected"] {
+  display: none;
+}

@@ -82,6 +82,7 @@ router.get('/cart', cartController.show);
 
 // Checkout;
 router.get('/checkout', checkoutController.show);
+router.post('/checkout/select-shipping-address', checkoutController.postSaveAddress);
 router.post('/checkout/place-order', checkoutController.placeOrder);
 
 // Account;
