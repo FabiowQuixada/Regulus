@@ -39,21 +39,14 @@ app.use((req, res, next) => {
     }
 
     if (userId && req.session.isUserLoggedIn) {
-        let fetchedUser;
-
-        User.findByPk(userId)
+        User
+            .findByPk(userId, { include: [{ model: Cart, include: ['products'] }]})
             .then(user => {
-                fetchedUser = user;
-                return user.getCart();
-            })
-            .then(cart => {
-                if (!cart) {
-                    return fetchedUser.createCart();
+                if (user.cart) {
+                    res.locals.cartProductQty = user.cart.products.length;
                 }
-                return cart.getProducts();
-            })
-            .then(productList => {
-                res.locals.cartProductQty = productList.length;
+
+                req.session.user = user;
                 next();
             });
     } else {
