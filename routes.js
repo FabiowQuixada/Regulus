@@ -84,6 +84,7 @@ router.get('/cart', checkAuthentication, cartController.show);
 router.get('/checkout', checkAuthentication, checkoutController.show);
 router.post('/checkout/select-shipping-address', checkAuthentication, checkoutController.postSaveAddress);
 router.post('/checkout/set-shipping-method', checkAuthentication, checkoutController.postSetShippingMethod);
+router.post('/checkout/set-billing-address', checkAuthentication, checkoutController.postSetBillingAddress);
 router.post('/checkout/place-order', checkAuthentication, checkoutController.placeOrder);
 
 // Account;

@@ -1,5 +1,8 @@
 h3 Shipping
 div
+    //- Used for reference in the billing step
+    input.selected-shipping-address-id(type="hidden", value=`${cart.shippingAddressId || ''}`)
+
     section 
         form(action="/checkout/select-shipping-address" class="shipping-address-form" method="POST")
             each address in addressList

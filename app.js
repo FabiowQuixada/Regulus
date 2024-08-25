@@ -75,6 +75,8 @@ Cart.belongsTo(Address, { as: 'shippingAddress' });
 Cart.belongsTo(Address, { as: 'billingAddress' });
 Cart.belongsTo(ShippingMethod, { as: 'shippingMethod' }); // TODO Is this alias necessary?
 Order.belongsToMany(Product, { through : ProductLineItem });
+Order.belongsTo(Address, { as: 'shippingAddress' });
+Order.belongsTo(Address, { as: 'billingAddress' });
 Product.belongsToMany(Cart, { through : ProductLineItem });
 
 sequelize

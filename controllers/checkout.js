@@ -101,11 +101,14 @@ const postSaveAddress = (req, res, next) => {
 
                 res.json({
                     success : true,
+                    shippingAddressId : isNewAddress.id
                 });
             }).catch((err) => {
                 res.json({
                     success : false,
                 });
+
+                console.log(err);
             });
 
     } else {
@@ -116,6 +119,7 @@ const postSaveAddress = (req, res, next) => {
 
                 res.json({
                     success : true,
+                    shippingAddressId : address.id
                 });
             }).catch((err) => {
                 console.log(err);
@@ -143,6 +147,64 @@ const postSetShippingMethod = (req, res, next) => {
                 success : false,
             });
         });
+};
+
+const postSetBillingAddress = (req, res, next) => {
+    const addressId    = req.body.addressId;
+    const isNewAddress = addressId == -1;
+
+    if (isNewAddress) {
+        if (req.body.shouldSetAsMain == 'true') {
+            Address.update(
+                { isMain : false },
+                { where : {
+                    id : { [Op.not]: addressId }
+                }}
+            );
+        }
+
+        Address
+            .create({
+                name    : req.body.name,
+                street  : req.body.street,
+                city    : req.body.city,
+                state   : req.body.state,
+                zip     : req.body.zip,
+                country : req.body.country,
+                isMain  : req.body.shouldSetAsMain,
+            })
+            .then(newAdress => {
+                req.session.user.cart.setBillingAddress(newAdress);
+
+                if (req.body.shouldSaveAddress) {
+                    req.session.user.addAddress(newAdress);
+                }
+
+                res.json({
+                    success : true,
+                });
+            }).catch((err) => {
+                res.json({
+                    success : false,
+                });
+            });
+
+    } else {
+        Address
+            .findByPk(addressId)
+            .then(address => {
+                req.session.user.cart.setBillingAddress(address);
+
+                res.json({
+                    success : true,
+                });
+            }).catch((err) => {
+                console.log(err);
+                res.json({
+                    success : false,
+                });
+            });
+    }
 };
 
 const placeOrder = (req, res, next) => {
@@ -187,5 +249,6 @@ module.exports = {
     show,
     postSaveAddress,
     postSetShippingMethod,
+    postSetBillingAddress,
     placeOrder
 };
