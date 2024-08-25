@@ -37,7 +37,25 @@ const loadDatabaseProductData = () => {
     });
 };
 
+const loadDatabaseShippingMethodData = () => {
+    const ShippingMethod = require('../models/shipping-method');
+
+    ShippingMethod.create({
+        name               : 'Pick up in Store',
+        cost               : 0,
+        imagePath          : '',
+        deliveryTimeInDays : 0
+    });
+
+    ShippingMethod.create({
+        name               : 'Express Delivery',
+        cost               : 15.00,
+        imagePath          : '',
+        deliveryTimeInDays : 5
+    });
+};
 module.exports = {
     sequelize,
-    loadDatabaseProductData
+    loadDatabaseProductData,
+    loadDatabaseShippingMethodData,
 };

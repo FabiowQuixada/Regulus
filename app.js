@@ -13,6 +13,7 @@ const Cart            = require('./models/cart');
 const Order           = require('./models/order');
 const ProductLineItem = require('./models/product-line-item');
 const Address         = require('./models/address');
+const ShippingMethod  = require('./models/shipping-method');
 
 const sequelize = database.sequelize;
 const app = express();
@@ -72,15 +73,16 @@ User.hasMany(Address);
 Cart.belongsToMany(Product, { through : ProductLineItem });
 Cart.belongsTo(Address, { as: 'shippingAddress' });
 Cart.belongsTo(Address, { as: 'billingAddress' });
+Cart.belongsTo(ShippingMethod, { as: 'shippingMethod' }); // TODO Is this alias necessary?
 Order.belongsToMany(Product, { through : ProductLineItem });
 Product.belongsToMany(Cart, { through : ProductLineItem });
 
 sequelize
-    .sync()
-    // .sync({ force : true})
-// .then(result => {
-//     database.loadDatabaseProductData();
-// })
+    .then(result => {
+        if (shouldForce) {
+            database.loadDatabaseShippingMethodData();
+        }
+    })
     .then(result => {
         return User.findByPk(1);
     })

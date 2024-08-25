@@ -1,7 +1,8 @@
 const { Op } = require('sequelize');
 
-const Address = require('../models/address');
-const User = require('../models/user');
+const Address        = require('../models/address');
+const ShippingMethod = require('../models/shipping-method');
+const User           = require('../models/user');
 
 // TODO Put in env variable;
 const stripe = require('stripe')('sk_test_51Po8PdFDBwKaWQBpfjT7q57Tgjj3h2WIZyWdMYI0sAeasmfeL3cakDIlbl8NUruDRjli1jLOY59HPmkftl3bw5mj00htii0t7Y');
@@ -15,6 +16,8 @@ const show = (req, res, next) => {
         return;
     }
 
+    let stpSession;
+
     stripe.checkout.sessions
         .create({
             payment_method_types: ['card'],
@@ -25,7 +28,7 @@ const show = (req, res, next) => {
                         product_data: {
                             name: p.title,
                         },
-                        unit_amount: p.price * 100,
+                        unit_amount: Math.trunc(p.price * 100),
                     },
                     quantity: 1,
                 };
@@ -35,18 +38,29 @@ const show = (req, res, next) => {
             cancel_url: req.protocol + '://' + req.get('host') + '/checkout?step=payment',
         })
         .then(stripeSession => {
-            req.session.user.getAddresses({
-                order   : [ [ 'createdAt', 'DESC'] ]
-            })
+            stpSession = stripeSession;
+        })
+        .then(() => {
+            return ShippingMethod.findAll();
+        })
+        .then(shippingMethodList => {
+            req.session.user
+                .getAddresses({
+                    order   : [ [ 'createdAt', 'DESC'] ]
+                })
                 .then(addressList => {
                     res.render('checkout/index', {
                         currentStep     : req.query.step || 'init',
-                        stripeSessionId : stripeSession.id,
+                        stripeSessionId : stpSession.id,
                         cart            : req.session.user.cart,
                         // TODO Get directily from session user;
                         addressList     : addressList,
-                        address : {}
+                        address : {},
+                        shippingMethodList,
                     });
+                })
+                .catch(e => {
+                    console.log(e);
                 });
         })
         .catch( err => {
@@ -112,6 +126,25 @@ const postSaveAddress = (req, res, next) => {
     }
 };
 
+const postSetShippingMethod = (req, res, next) => {
+    const shippingMethodId = req.body.shippingMethodId;
+
+    ShippingMethod
+        .findByPk(shippingMethodId)
+        .then(shippingMethod => {
+            req.session.user.cart.setShippingMethod(shippingMethod);
+
+            res.json({
+                success : true,
+            });
+        }).catch((err) => {
+            console.log(err);
+            res.json({
+                success : false,
+            });
+        });
+};
+
 const placeOrder = (req, res, next) => {
     const userId = req.session.user ? req.session.user.id : null;
 
@@ -153,5 +186,6 @@ const placeOrder = (req, res, next) => {
 module.exports = {
     show,
     postSaveAddress,
+    postSetShippingMethod,
     placeOrder
 };

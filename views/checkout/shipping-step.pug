@@ -1,19 +1,38 @@
 h3 Shipping
 div
-    form(action="/checkout/select-shipping-address" class="shipping-form" method="POST")
-        each address in addressList
+    section 
+        form(action="/checkout/select-shipping-address" class="shipping-address-form" method="POST")
+            each address in addressList
+                header.card__header
+                    input(type="radio", name="shipping-address-id", value=address.id, checked=address.isMain)
+                    b 
+                        div #{address.name}
+                    div #{address.street} #{address.city} #{address.state} #{address.zip} #{address.country}
+            
             header.card__header
-                input(type="radio", name="shipping-address-id", value=address.id, checked=address.isMain)
-                b 
-                    div #{address.name}
-                div #{address.street} #{address.city} #{address.state} #{address.zip} #{address.country}
+                input(type="radio", name="shipping-address-id", value="-1")
+                div Use new address
+
+            .shipping-address-form-ctnr(status="unselected")
+                include ./shipping-address-form
+
+            div.buttons
+                button(type="submit", class="submit-shipping-address") Save
+
+    section
+        form(action="/checkout/set-shipping-method" class="shipping-method-form" method="POST")
+            each shippingMethod in shippingMethodList
+                header.card__header
+                    input(type="radio", name="shipping-method-id", value=shippingMethod.id)
+                    b 
+                        div #{shippingMethod.name}
+                    div 
+                        if shippingMethod.cost > 0
+                            div $#{shippingMethod.cost}
+                        else
+                            div FREE
+                    div #{shippingMethod.deliveryTimeInDays} days
+
+            div.buttons
+                button(type="submit") Save
         
-        header.card__header
-            input(type="radio", name="shipping-address-id", value="-1")
-            div Use new address
-
-        .shipping-address-form-ctnr(status="unselected")
-            include ./shipping-address-form
-
-        div.buttons
-            button(type="submit", class="submit-address") Save
