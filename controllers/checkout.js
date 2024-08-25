@@ -8,11 +8,6 @@ const stripe = require('stripe')('sk_test_51Po8PdFDBwKaWQBpfjT7q57Tgjj3h2WIZyWdM
 
 const show = (req, res, next) => {
 
-    if (!req.session.user) {
-        res.redirect('/login');
-        return;
-    }
-
     const productList = req.session.user.cart.products;
     if (productList.length == 0) {
         // throw new Error('Cart is empty');

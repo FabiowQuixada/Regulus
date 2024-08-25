@@ -76,23 +76,23 @@ router.post('/save-new-password',
 );
 
 // Cart;
-router.post('/cart/add-product', cartController.addProduct);
-router.post('/cart/remove-product', cartController.removeProduct);
-router.get('/cart', cartController.show);
+router.post('/cart/add-product', checkAuthentication, cartController.addProduct);
+router.post('/cart/remove-product', checkAuthentication, cartController.removeProduct);
+router.get('/cart', checkAuthentication, cartController.show);
 
 // Checkout;
-router.get('/checkout', checkoutController.show);
-router.post('/checkout/select-shipping-address', checkoutController.postSaveAddress);
-router.post('/checkout/place-order', checkoutController.placeOrder);
+router.get('/checkout', checkAuthentication, checkoutController.show);
+router.post('/checkout/select-shipping-address', checkAuthentication, checkoutController.postSaveAddress);
+router.post('/checkout/place-order', checkAuthentication, checkoutController.placeOrder);
 
 // Account;
 router.get('/account', checkAuthentication, accountController.show);
-router.get('/account/orders', accountController.getOrders);
-router.get('/account/addresses', accountController.getAddresses);
-router.get('/account/addresses/new', accountController.getAddOrEditAddress);
-router.get('/account/addresses/:addressId', accountController.getAddOrEditAddress);
-router.post('/account/addresses', accountController.postSaveAddress);
-router.post('/account/addresses/delete', accountController.deleteAddress);
+router.get('/account/orders', checkAuthentication, accountController.getOrders);
+router.get('/account/addresses', checkAuthentication, accountController.getAddresses);
+router.get('/account/addresses/new', checkAuthentication, accountController.getAddOrEditAddress);
+router.get('/account/addresses/:addressId', checkAuthentication, accountController.getAddOrEditAddress);
+router.post('/account/addresses', checkAuthentication, accountController.postSaveAddress);
+router.post('/account/addresses/delete', checkAuthentication, accountController.deleteAddress);
 
 // Other;
 router.get('/500', errorsController.get500);
