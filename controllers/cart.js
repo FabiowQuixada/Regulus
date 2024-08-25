@@ -7,7 +7,8 @@ const addProduct = (req, res, next) => {
     let fectchedCart;
     let newQty = 1;
 
-    const userId = req.session.user ? req.session.user.id : null;
+    // TODO Hardcoded ID
+    const userId = req.session.user ? req.session.user.id : 1;
 
     if (userId) {
         let fetchedUser;
@@ -19,7 +20,7 @@ const addProduct = (req, res, next) => {
             })
             .then(cart => {
                 if (!cart) {
-                    return req.user.createCart();
+                    return req.session.user.createCart();
                 }
 
                 return cart;
@@ -49,7 +50,9 @@ const addProduct = (req, res, next) => {
             .then(() => {
                 res.redirect('/cart');
             })
-            .catch(err => console.log(err));
+            .catch(err =>
+                console.log(err)
+            );
     }
 };
 
@@ -79,7 +82,8 @@ const removeProduct = (req, res, next) => {
 };
 
 const show = (req, res, next) => {
-    const userId = req.session.user ? req.session.user.id : null;
+    // TODO
+    const userId = req.session.user ? req.session.user.id : 1;
 
     if (userId) {
         let fetchedUser;
@@ -91,7 +95,7 @@ const show = (req, res, next) => {
             })
             .then(cart => {
                 if (!cart) {
-                    return req.user.createCart();
+                    return fetchedUser.createCart();
                 }
                 return cart.getProducts();
             })

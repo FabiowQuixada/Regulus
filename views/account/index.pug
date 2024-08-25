@@ -8,8 +8,9 @@ block content
 
     div Edit my Data
     div 
-        h3 Last order
-        div Order ##{lastOrder.id} (#{lastOrder.createdAt})
+        if lastOrder
+            h3 Last order
+            div Order ##{lastOrder.id} (#{lastOrder.createdAt})
         a(href="/account/orders") See All Orders
 
     div My Payment methods

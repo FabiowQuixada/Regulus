@@ -1,11 +1,11 @@
 .form-group
-    input(type="text", class="form-control name",    name="name",   value=`${address.name || ''}` placeholder="Address Name")
-    input(type="text", class="form-control street",  name="street", value=`${address.street || ''}` placeholder="Street")
-    input(type="text", class="form-control city",    name="city",   value=`${address.city || ''}` placeholder="City")
-    input(type="text", class="form-control state",   name="state",  value=`${address.state || ''}` placeholder="State")
-    input(type="text", class="form-control zip",     name="zip",    value=`${address.zip || ''}` placeholder="Zip")
-    input(type="text", class="form-control country", name="country" value=`${address.country || ''}` placeholder="Country")
+    input(type="text", class="form-control name",    name="name",   placeholder="Address Name")
+    input(type="text", class="form-control street",  name="street", placeholder="Street")
+    input(type="text", class="form-control city",    name="city",   placeholder="City")
+    input(type="text", class="form-control state",   name="state",  placeholder="State")
+    input(type="text", class="form-control zip",     name="zip",    placeholder="Zip")
+    input(type="text", class="form-control country", name="country" placeholder="Country")
     input(type="checkbox", class="form-control should-save-address", name="should-save-address")
     div Save address
-    input(type="checkbox", class="form-control should-set-as-main", name="is-main", checked=address.isMain)
+    input(type="checkbox", class="form-control should-set-as-main", name="is-main")
     div Set as main address

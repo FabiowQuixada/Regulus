@@ -8,6 +8,7 @@ const pathUtils = require('./path');
 const sequelize = new Sequelize('regulus', 'root', 'my-super-secret-password', {
     dialect : 'mysql',
     storage: './session.sqlite',
+    logging: false,
 });
 
 const loadDatabaseProductData = () => {

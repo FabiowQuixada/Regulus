@@ -15,7 +15,6 @@ module.exports = {
         'semi': ['error', 'always'],
         'eol-last': ['error', 'always'],
         'no-shadow' : ['error'],
-        'eqeqeq': ['error', 'always'],
         'complexity': ['warn'],
         'no-trailing-spaces': ['error', { 'skipBlankLines': false }],
         'no-var': ['error'],

@@ -42,6 +42,14 @@ app.use((req, res, next) => {
     if (userId && req.session.isUserLoggedIn) {
         User
             .findByPk(userId, { include: [{ model: Cart, include: ['products'] }]})
+            // .then(user => {
+            //     u = user;
+            //     if (user.cart) {
+            //         return user.cart;
+            //     }
+
+            //     return user.createCart();
+            // })
             .then(user => {
                 if (user.cart) {
                     res.locals.cartProductQty = user.cart.products.length;
@@ -62,9 +70,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 app.use((error, req, res, next) => {
-    res.redirect('/500', {
-        error
-    });
+    console.log(error);
+    res.
+        status(500)
+        .redirect('/500', {
+            error
+        });
 });
 
 User.hasOne(Cart);
@@ -79,7 +90,17 @@ Order.belongsTo(Address, { as: 'shippingAddress' });
 Order.belongsTo(Address, { as: 'billingAddress' });
 Product.belongsToMany(Cart, { through : ProductLineItem });
 
+const shouldForce = false;
+
 sequelize
+    .sync(
+        { force : shouldForce }
+    )
+    .then(result => {
+        if (shouldForce) {
+            database.loadDatabaseProductData();
+        }
+    })
     .then(result => {
         if (shouldForce) {
             database.loadDatabaseShippingMethodData();
@@ -91,8 +112,9 @@ sequelize
     .then(user => {
         if (!user) {
             return User.create({
-                name: 'Fabiow',
-                email: 'ftquixada@gmail.com'
+                name     : 'Fabiow',
+                email    : 'ftquixada@gmail.com',
+                password : '123'
             });
         }
 
