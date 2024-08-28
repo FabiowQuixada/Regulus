@@ -1,19 +1,21 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const session = require('express-session');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const routes  = require('./routes');
-const database = require('./util/database');
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import session from 'express-session';
+import temp from 'connect-session-sequelize';
+import routes from './routes.js';
+import database from './util/database.js';
 
 // Sequelize Models
-const User            = require('./models/user');
-const Product         = require('./models/product');
-const Cart            = require('./models/cart');
-const Order           = require('./models/order');
-const ProductLineItem = require('./models/product-line-item');
-const Address         = require('./models/address');
-const ShippingMethod  = require('./models/shipping-method');
+import User            from './models/user.js';
+import Product         from './models/product.js';
+import Cart            from './models/cart.js';
+import Order           from './models/order.js';
+import ProductLineItem from './models/product-line-item.js';
+import Address         from './models/address.js';
+import ShippingMethod  from './models/shipping-method.js';
+
+const SequelizeStore = temp(session.Store)
 
 const sequelize = database.sequelize;
 const app = express();
@@ -66,7 +68,7 @@ app.use((req, res, next) => {
 app.set('view engine', 'pug');
 app.set('views', 'views');
 app.use(bodyParser.urlencoded());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(import.meta.dirname, 'public')));
 app.use('/', routes);
 
 app.use((error, req, res, next) => {

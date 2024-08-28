@@ -1,5 +1,5 @@
 
-const Product = require('../models/product');
+import Product from '../models/product.js';
 
 const getProducts = (req, res, next) => {
     Product.findAll()
@@ -27,7 +27,7 @@ const getProduct = (req, res, next) => {
         .catch(err => { console.log(err);});
 };
 
-module.exports = {
+export default {
     getProducts,
     getProduct,
 };

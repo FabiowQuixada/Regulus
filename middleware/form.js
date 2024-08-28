@@ -1,7 +1,7 @@
-const { validationResult } = require('express-validator');
+import { validationResult } from 'express-validator';
 
 // TODO Put this function in /util/form.js?
-const getFormData = req => {
+export const getFormData = req => {
     const errorData   = validationResult(req);
     const userInput   = {};
     const fieldErrors = {};
@@ -23,7 +23,7 @@ const getFormData = req => {
     };
 };
 
-const validateForm = viewPath => {
+export const validateForm = viewPath => {
     return (req, res, next) => {
         const formData = getFormData(req);
 
@@ -37,10 +37,3 @@ const validateForm = viewPath => {
         next();
     };
 };
-
-module.exports = {
-    validateForm,
-    getFormData
-};
-
-

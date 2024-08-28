@@ -4,6 +4,7 @@
   "main": "app.js",
   "author": "Fabiow Quixadá <ftquixada@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "test": "mocha",
     "a": "call .\\sendgrid.env"
@@ -20,7 +21,7 @@
     "mysql2": "^3.11.0",
     "pug": "^3.0.3",
     "sequelize": "^6.37.3",
-    "stripe": "^16.8.0"
+    "stripe": "^16.9.0"
   },
   "devDependencies": {
     "chai": "^5.1.1",

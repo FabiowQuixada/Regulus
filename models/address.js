@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../util/database').sequelize;
+import Sequelize from 'sequelize';
+import { sequelize } from '../util/database.js';
 
 const Address = sequelize.define('address', {
     id : {
@@ -41,4 +41,4 @@ const Address = sequelize.define('address', {
     isMain  :  Sequelize.BOOLEAN
 });
 
-module.exports = Address;
+export default Address;

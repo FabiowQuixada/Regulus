@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../util/database').sequelize;
+import Sequelize from 'sequelize';
+import { sequelize } from '../util/database.js';
 
 const ShippingMethod = sequelize.define('shipping-method', {
     id                 : {
@@ -14,4 +14,4 @@ const ShippingMethod = sequelize.define('shipping-method', {
     deliveryTimeInDays : Sequelize.INTEGER,
 });
 
-module.exports = ShippingMethod;
+export default ShippingMethod;

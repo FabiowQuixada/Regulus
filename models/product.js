@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../util/database').sequelize;
+import Sequelize from 'sequelize';
+import { sequelize } from '../util/database.js';
 
 const Product = sequelize.define('product', {
     id : {
@@ -22,4 +22,4 @@ const Product = sequelize.define('product', {
     moreInfoUrl : Sequelize.STRING
 });
 
-module.exports = Product;
+export default Product;

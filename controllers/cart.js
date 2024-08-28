@@ -1,6 +1,6 @@
-const Product = require('../models/product');
-const Cart = require('../models/cart');
-const User = require('../models/user');
+import Product from '../models/product.js';
+import Cart    from '../models/cart.js';
+import User    from '../models/user.js';
 
 const addProduct = (req, res, next) => {
     const productId = req.body.productId;
@@ -119,7 +119,7 @@ const emptyCart = () => {
         });
 };
 
-module.exports = {
+export default {
     addProduct,
     removeProduct,
     show,

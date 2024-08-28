@@ -6,6 +6,6 @@ const getHome = (req, res, next) => {
     });
 };
 
-module.exports = {
+export default {
     getHome,
 };

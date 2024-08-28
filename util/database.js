@@ -1,11 +1,11 @@
-const fs = require('fs');
-const Sequelize = require('sequelize');
-const path = require('path');
-const pathUtils = require('./path');
+import fs        from 'fs';
+import Sequelize from 'sequelize';
+import path      from 'path';
+import pathUtils from './path.js';
 
 
 // TODO Save password somewhere else;
-const sequelize = new Sequelize('regulus', 'root', 'my-super-secret-password', {
+export const sequelize = new Sequelize('regulus', 'root', 'my-super-secret-password', {
     dialect : 'mysql',
     storage: './session.sqlite',
     logging: false,
@@ -55,7 +55,8 @@ const loadDatabaseShippingMethodData = () => {
         deliveryTimeInDays : 5
     });
 };
-module.exports = {
+
+export default {
     sequelize,
     loadDatabaseProductData,
     loadDatabaseShippingMethodData,

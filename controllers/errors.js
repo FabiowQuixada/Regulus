@@ -12,7 +12,7 @@ const get500 = (req, res, next) => {
         });
 };
 
-module.exports = {
+export default {
     get404,
     get500,
 };

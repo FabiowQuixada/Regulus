@@ -1,16 +1,16 @@
-const express = require('express');
-const { body } = require('express-validator');
+import express from 'express';
+import { body } from 'express-validator';
 
-const homeController      = require('./controllers/home');
-const productsController  = require('./controllers/products');
-const errorsController    = require('./controllers/errors');
-const cartController      = require('./controllers/cart');
-const checkoutController  = require('./controllers/checkout');
-const accountController   = require('./controllers/account');
-const authController      = require('./controllers/auth');
-const checkAuthentication = require('./middleware/check-authentication');
-const { validateForm }    = require('./middleware/form');
-const User                = require('./models/user');
+import homeController      from './controllers/home.js';
+import productsController  from './controllers/products.js';
+import errorsController    from './controllers/errors.js';
+import cartController      from './controllers/cart.js';
+import checkoutController  from './controllers/checkout.js';
+import accountController   from './controllers/account.js';
+import authController      from './controllers/auth.js';
+import checkAuthentication from './middleware/check-authentication.js';
+import { validateForm }    from './middleware/form.js';
+import User                from './models/user.js';
 
 const router = express.Router();
 
@@ -100,4 +100,4 @@ router.post('/account/addresses/delete', checkAuthentication, accountController.
 router.get('/500', errorsController.get500);
 router.use(errorsController.get404);
 
-module.exports = router;
+export default router;

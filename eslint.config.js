@@ -1,7 +1,7 @@
 const jasmine    = require('eslint-plugin-jasmine');
-const varspacing = require('eslint-plugin-varspacing');
+import varspacing from 'eslint-plugin-varspacing';
 
-module.exports = {
+export default {
     'plugins': {
         jasmine,
         varspacing

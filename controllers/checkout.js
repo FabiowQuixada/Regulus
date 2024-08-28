@@ -1,13 +1,12 @@
-const { Op } = require('sequelize');
-
-const Address        = require('../models/address');
-const ShippingMethod = require('../models/shipping-method');
-const User           = require('../models/user');
-
-// TODO Put in env variable;
-const stripe = require('stripe')('sk_test_51Po8PdFDBwKaWQBpfjT7q57Tgjj3h2WIZyWdMYI0sAeasmfeL3cakDIlbl8NUruDRjli1jLOY59HPmkftl3bw5mj00htii0t7Y');
+import { Op }         from 'sequelize';
+import Address        from '../models/address.js';
+import ShippingMethod from '../models/shipping-method.js';
+import User           from '../models/user.js';
+import Stripe         from 'stripe';
 
 const show = (req, res, next) => {
+    // TODO Put in env variable;
+    const stripe = Stripe('sk_test_51Po8PdFDBwKaWQBpfjT7q57Tgjj3h2WIZyWdMYI0sAeasmfeL3cakDIlbl8NUruDRjli1jLOY59HPmkftl3bw5mj00htii0t7Y');
 
     const productList = req.session.user.cart.products;
     if (productList.length == 0) {
@@ -245,7 +244,7 @@ const placeOrder = (req, res, next) => {
     }
 };
 
-module.exports = {
+export default {
     show,
     postSaveAddress,
     postSetShippingMethod,

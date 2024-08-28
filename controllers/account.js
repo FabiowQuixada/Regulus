@@ -1,7 +1,7 @@
-const Order = require('../models/order');
-const User = require('../models/user');
-const Address = require('../models/address');
-const { Op } = require('sequelize');
+import Order   from '../models/order.js';
+import User    from '../models/user.js';
+import Address from '../models/address.js';
+import { Op }  from 'sequelize';
 
 const show = (req, res, next) => {
     const userId = req.session.user.id;
@@ -156,7 +156,7 @@ const deleteAddress = (req, res, next) => {
         });
 };
 
-module.exports = {
+export default {
     show,
     getOrders,
     getAddresses,

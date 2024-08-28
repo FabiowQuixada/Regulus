@@ -1,8 +1,9 @@
+import dotenv from 'dotenv';
+import sgMail from '@sendgrid/mail';
 
 const send = (to, subject, htmlContent) => {
-    require('dotenv').config();
+    dotenv.config();
 
-    const sgMail = require('@sendgrid/mail');
     const msg = {
         to,
         from    : 'ftquixada@gmail.com', // TODO Put in environment variable
@@ -19,6 +20,6 @@ const send = (to, subject, htmlContent) => {
         });
 };
 
-module.exports = {
+export default {
     send
 };

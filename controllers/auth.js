@@ -1,4 +1,6 @@
-const User = require('../models/user');
+import crypto from 'crypto';
+import User   from '../models/user.js';
+import mailer from '../util/mailer.js';
 
 const getSignup = (req, res, next) => {
     res.render('auth/signup', {
@@ -64,8 +66,6 @@ const postLogout = (req, res, next) => {
 };
 
 const postResetPassword = (req, res, next) => {
-    const crypto = require('crypto');
-
     crypto.randomBytes(32, (err, buffer) => {
         if (err) {
             console.log(err);
@@ -90,15 +90,14 @@ const postResetPassword = (req, res, next) => {
                 return user.save();
             })
             .then(user => {
-                const mailer = require('../util/mailer');
 
-                res.redirect('/');
-
-                return mailer.send(inputEmail, 'Password Reset', `
+                mailer.send(inputEmail, 'Password Reset', `
                     <p>
-                        Please click <a href="http://localhost:3000/reset-password/${token}">here</a> to reset your password.
+                    Please click <a href="http://localhost:3000/reset-password/${token}">here</a> to reset your password.
                     </p>
                     `);
+
+                res.redirect('/');
             })
             .catch(err2 => {
                 console.log(err2);
@@ -151,7 +150,7 @@ const postSaveNewPassword = (req, res, next) => {
         });
 };
 
-module.exports = {
+export default {
     getSignup,
     postSignup,
     getLogin,
