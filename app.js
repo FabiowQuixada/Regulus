@@ -28,6 +28,7 @@ app.use(
         }),
         resave: false, // we support the touch method so per the express-session docs this should be set to false
         proxy: true, // if you do SSL outside of node.
+        saveUninitialized: true,
     })
 );
 
@@ -67,7 +68,7 @@ app.use((req, res, next) => {
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(import.meta.dirname, 'public')));
 app.use('/', routes);
 
