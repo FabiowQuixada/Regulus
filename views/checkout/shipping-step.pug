@@ -8,9 +8,11 @@ div
             each address in addressList
                 header.card__header
                     input(type="radio", name="shipping-address-id", value=address.id, checked=address.isMain)
+                if address.isMain 
+                    img(src='/images/icons/star.png', style="width: 15px; height: 15px;" alt='Main Address')
                     b 
                         div #{address.name}
-                    div #{address.street} #{address.city} #{address.state} #{address.zip} #{address.country}
+                    div #{address.getFullAddress()}
             
             header.card__header
                 input(type="radio", name="shipping-address-id", value="-1")

@@ -5,18 +5,12 @@ block content
 
     each address in addressList
         header.card__header
+            if address.isMain
+                img(src='/images/icons/star.png', style="width: 15px; height: 15px;" alt='Main Address')
             b 
                 div #{address.name}
-            div #{address.street  }
-            div #{address.city    }
-            div #{address.state   }
-            div #{address.zip     }
-            div #{address.country }
+            div #{address.getFullAddress()}
 
-            if address.isMain
-                div True
-            else 
-                div False
 
             a(href=`/account/addresses/${address.id}`) Edit
             form(action=`/account/addresses/delete` method="POSt")
