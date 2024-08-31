@@ -4,7 +4,8 @@ import path from 'path';
 import session from 'express-session';
 import temp from 'connect-session-sequelize';
 import routes from './routes.js';
-import database from './util/database.js';
+import { sequelize } from './util/database.js';
+import databaseLoader from './util/databaseLoader.js';
 
 // Sequelize Models
 import User            from './models/user.js';
@@ -15,16 +16,15 @@ import ProductLineItem from './models/product-line-item.js';
 import Address         from './models/address.js';
 import ShippingMethod  from './models/shipping-method.js';
 
-const SequelizeStore = temp(session.Store)
+const SequelizeStore = temp(session.Store);
 
-const sequelize = database.sequelize;
 const app = express();
 
 app.use(
     session({
         secret: 'keyboard cat',
         store: new SequelizeStore({
-            db: database.sequelize,
+            db: sequelize,
         }),
         resave: false, // we support the touch method so per the express-session docs this should be set to false
         proxy: true, // if you do SSL outside of node.
@@ -100,12 +100,12 @@ sequelize
     )
     .then(result => {
         if (shouldForce) {
-            database.loadDatabaseProductData();
+            databaseLoader.loadDatabaseProductData();
         }
     })
     .then(result => {
         if (shouldForce) {
-            database.loadDatabaseShippingMethodData();
+            databaseLoader.loadDatabaseShippingMethodData();
         }
     })
     .then(result => {

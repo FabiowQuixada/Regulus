@@ -1,5 +1,4 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../util/database.js';
+import { sequelize, Sequelize } from '../util/database.js';
 
 const ProductLineItem = sequelize.define('productLineItem', {
     id : {
