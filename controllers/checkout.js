@@ -4,7 +4,7 @@ import ShippingMethod from '../models/shipping-method.js';
 import User           from '../models/user.js';
 import Stripe         from 'stripe';
 
-const show = (req, res, next) => {
+const show = async (req, res, next) => {
     // TODO Put in env variable;
     const stripe = Stripe('sk_test_51Po8PdFDBwKaWQBpfjT7q57Tgjj3h2WIZyWdMYI0sAeasmfeL3cakDIlbl8NUruDRjli1jLOY59HPmkftl3bw5mj00htii0t7Y');
 
@@ -15,9 +15,7 @@ const show = (req, res, next) => {
         return;
     }
 
-    let stpSession;
-
-    stripe.checkout.sessions
+    const stripeSession = await stripe.checkout.sessions
         .create({
             payment_method_types: ['card'],
             line_items: productList.map(p => {
@@ -35,45 +33,33 @@ const show = (req, res, next) => {
             mode: 'payment',
             success_url: req.protocol + '://' + req.get('host') + '/checkout?step=review',
             cancel_url: req.protocol + '://' + req.get('host') + '/checkout?step=payment',
-        })
-        .then(stripeSession => {
-            stpSession = stripeSession;
-        })
-        .then(() => {
-            return ShippingMethod.findAll();
-        })
-        .then(shippingMethodList => {
-            req.session.user
-                .getAddresses({
-                    order   : [ [ 'createdAt', 'DESC'] ]
-                })
-                .then(addressList => {
-                    res.render('checkout/index', {
-                        currentStep     : req.query.step || 'init',
-                        stripeSessionId : stpSession.id,
-                        cart            : req.session.user.cart,
-                        // TODO Get directily from session user;
-                        addressList     : addressList,
-                        address : {},
-                        shippingMethodList,
-                    });
-                })
-                .catch(e => {
-                    console.log(e);
-                });
-        })
-        .catch( err => {
-            console.log(err);
         });
+
+    const shippingMethodList = await ShippingMethod.findAll();
+    const addressList        = await req.session.user
+        .getAddresses({
+            order   : [ [ 'createdAt', 'DESC'] ]
+        });
+
+    res.render('checkout/index', {
+        currentStep     : req.query.step || 'init',
+        stripeSessionId : stripeSession.id,
+        cart            : req.session.user.cart,
+        // TODO Get directily from session user;
+        addressList     : addressList,
+        address : {},
+        shippingMethodList,
+    });
 };
 
-const postSaveAddress = (req, res, next) => {
+const postSaveAddress = async (req, res, next) => {
     const addressId    = req.body.addressId;
     const isNewAddress = addressId == -1;
 
     if (isNewAddress) {
         if (req.body.shouldSetAsMain == 'true') {
-            Address.update(
+            // TODO Put in the model;
+            await Address.update(
                 { isMain : false },
                 { where : {
                     id : { [Op.not]: addressId }
@@ -81,7 +67,7 @@ const postSaveAddress = (req, res, next) => {
             );
         }
 
-        Address
+        const newAddress = await Address
             .create({
                 name    : req.body.name,
                 street  : req.body.street,
@@ -90,71 +76,50 @@ const postSaveAddress = (req, res, next) => {
                 zip     : req.body.zip,
                 country : req.body.country,
                 isMain  : req.body.shouldSetAsMain,
-            })
-            .then(newAdress => {
-                req.session.user.cart.setShippingAddress(newAdress);
-
-                if (req.body.shouldSaveAddress) {
-                    req.session.user.addAddress(newAdress);
-                }
-
-                res.json({
-                    success : true,
-                    shippingAddressId : isNewAddress.id
-                });
-            }).catch((err) => {
-                res.json({
-                    success : false,
-                });
-
-                console.log(err);
             });
+        await req.session.user.cart.setShippingAddress(newAdress);
+
+        if (req.body.shouldSaveAddress) {
+            await req.session.user.addAddress(newAdress);
+        }
+
+        res.json({
+            success : true,
+            shippingAddressId : isNewAddress.id
+        });
 
     } else {
-        Address
-            .findByPk(addressId)
-            .then(address => {
-                req.session.user.cart.setShippingAddress(address);
+        const address = await Address.findByPk(addressId);
 
-                res.json({
-                    success : true,
-                    shippingAddressId : address.id
-                });
-            }).catch((err) => {
-                console.log(err);
-                res.json({
-                    success : false,
-                });
-            });
+        await req.session.user.cart.setShippingAddress(address);
+
+        res.json({
+            success : true,
+            shippingAddressId : address.id
+        });
     }
 };
 
-const postSetShippingMethod = (req, res, next) => {
-    const shippingMethodId = req.body.shippingMethodId;
+const postSetShippingMethod = async (req, res, next) => {
+    const shippingMethod = await ShippingMethod.findByPk(req.body.shippingMethodId);
 
-    ShippingMethod
-        .findByPk(shippingMethodId)
-        .then(shippingMethod => {
-            req.session.user.cart.setShippingMethod(shippingMethod);
+    if (shippingMethod) {
+        await req.session.user.cart.setShippingMethod(shippingMethod);
+    }
 
-            res.json({
-                success : true,
-            });
-        }).catch((err) => {
-            console.log(err);
-            res.json({
-                success : false,
-            });
-        });
+    res.json({
+        success : !!shippingMethod,
+    });
 };
 
-const postSetBillingAddress = (req, res, next) => {
+const postSetBillingAddress = async (req, res, next) => {
     const addressId    = req.body.addressId;
     const isNewAddress = addressId == -1;
 
     if (isNewAddress) {
         if (req.body.shouldSetAsMain == 'true') {
-            Address.update(
+            // TODO Put in model
+            await Address.update(
                 { isMain : false },
                 { where : {
                     id : { [Op.not]: addressId }
@@ -162,85 +127,63 @@ const postSetBillingAddress = (req, res, next) => {
             );
         }
 
-        Address
-            .create({
-                name    : req.body.name,
-                street  : req.body.street,
-                city    : req.body.city,
-                state   : req.body.state,
-                zip     : req.body.zip,
-                country : req.body.country,
-                isMain  : req.body.shouldSetAsMain,
-            })
-            .then(newAdress => {
-                req.session.user.cart.setBillingAddress(newAdress);
+        const newAddress = Address.create({
+            name    : req.body.name,
+            street  : req.body.street,
+            city    : req.body.city,
+            state   : req.body.state,
+            zip     : req.body.zip,
+            country : req.body.country,
+            isMain  : req.body.shouldSetAsMain,
+        });
 
-                if (req.body.shouldSaveAddress) {
-                    req.session.user.addAddress(newAdress);
-                }
+        await req.session.user.cart.setBillingAddress(newAdress);
 
-                res.json({
-                    success : true,
-                });
-            }).catch((err) => {
-                res.json({
-                    success : false,
-                });
-            });
+        if (req.body.shouldSaveAddress) {
+            await req.session.user.addAddress(newAdress);
+        }
+
+        res.json({
+            success : true,
+        });
 
     } else {
-        Address
-            .findByPk(addressId)
-            .then(address => {
-                req.session.user.cart.setBillingAddress(address);
+        const address = await Address.findByPk(addressId);
 
-                res.json({
-                    success : true,
-                });
-            }).catch((err) => {
-                console.log(err);
-                res.json({
-                    success : false,
-                });
-            });
+        await req.session.user.cart.setBillingAddress(address);
+
+        res.json({
+            success : true,
+        });
+
     }
 };
 
-const placeOrder = (req, res, next) => {
-    const userId = req.session.user ? req.session.user.id : null;
+const placeOrder = async (req, res, next) => {
+    try {
 
-    if (userId) {
-        let fetchedUser;
-        User.findByPk(userId)
-            .then(user => {
-                fetchedUser = user;
-                return user.getCart();
-            })
-            .then(cart => {
-                if (!cart) {
-                    return fetchedUser.createCart();
-                }
-                return cart;
-            })
-            .then(cart => cart.getProducts())
-            .then(productList => {
-                fetchedUser.createOrder()
-                    .then(order => {
-                    // TODO Is there a better way to do this?
-                        order.addProducts(productList.map(product => {
-                            product.productLineItem = {
-                                quantity: product.productLineItem.quantity
-                            };
+        const userId = req.session.user ? req.session.user.id : null;
 
-                            return product;
-                        }));
-                    });
-            })
-            .then(() => fetchedUser.getCart())
-            .then(cart => cart.destroy())
-            .then(() => {
-                res.redirect('/account/orders');
-            });
+        if (userId) {
+            const user  = await User.findByPk(userId);
+            const cart  = await user.getOrCreateCart();
+            const order = await user.createOrder();
+
+            // TODO Is there a better way to do this?
+            await order.addProducts(cart.products.map(product => {
+                product.productLineItem = {
+                    quantity: product.productLineItem.quantity
+                };
+
+                return product;
+            }));
+
+            await cart.destroy();
+
+            res.redirect('/account/orders');
+        }
+    } catch (e) {
+        console.log(e);
     }
 };
 

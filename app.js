@@ -33,7 +33,7 @@ app.use(
 );
 
 // TODO For some reason this doesn't work. It seems the promisse is called after the actual http request
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     const userId = req.session.user ? req.session.user.id : null;
 
     // TODO Check if it's possible to put it in session only;
@@ -43,27 +43,16 @@ app.use((req, res, next) => {
     }
 
     if (userId && req.session.isUserLoggedIn) {
-        User
-            .findByPk(userId, { include: [{ model: Cart, include: ['products'] }]})
-            // .then(user => {
-            //     u = user;
-            //     if (user.cart) {
-            //         return user.cart;
-            //     }
+        const user = await User.findByPk(userId, { include: [{ model: Cart, include: ['products'] }]});
 
-            //     return user.createCart();
-            // })
-            .then(user => {
-                if (user.cart) {
-                    res.locals.cartProductQty = user.cart.products.length;
-                }
+        if (user.cart) {
+            res.locals.cartProductQty = user.cart.products.length;
+        }
 
-                req.session.user = user;
-                next();
-            });
-    } else {
-        next();
+        req.session.user = user;
     }
+
+    next();
 });
 
 app.set('view engine', 'pug');
@@ -93,41 +82,18 @@ Order.belongsTo(Address, { as: 'shippingAddress' });
 Order.belongsTo(Address, { as: 'billingAddress' });
 Product.belongsToMany(Cart, { through : ProductLineItem });
 
-const shouldForce = false;
+const starServer = async () => {
+    const shouldForce = false;
 
-sequelize
-    .sync(
-        { force : shouldForce }
-    )
-    .then(result => {
-        if (shouldForce) {
-            databaseLoader.loadDatabaseProductData();
-        }
-    })
-    .then(result => {
-        if (shouldForce) {
-            databaseLoader.loadDatabaseShippingMethodData();
-        }
-    })
-    .then(result => {
-        return User.findByPk(1);
-    })
-    .then(user => {
-        if (!user) {
-            return User.create({
-                name     : 'Fabiow',
-                email    : 'ftquixada@gmail.com',
-                password : '123'
-            });
-        }
+    await sequelize.sync({ force : shouldForce });
 
-        return user;
-    });
-// .then(user => {
-//     user.createCart();
-// })
-// .then(cart => {
-// })
-// .catch(err => console.log(err));
-app.listen(3000);
+    if (shouldForce) {
+        await databaseLoader.loadUserData();
+        await databaseLoader.loadProductData();
+        await databaseLoader.loadShippingMethodData();
+    }
 
+    app.listen(3000);
+};
+
+starServer();

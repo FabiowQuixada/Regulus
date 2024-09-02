@@ -33,18 +33,7 @@ router.post(
 
 router.post(
     '/signup',
-    body('email', 'Invalid e-mailooo').isEmail(),
-    // TODO CHeck docs to make custom validation work;
-    // .custom(value => {
-    //     User.findOne({ where: { email : value } })
-    //         .then(user => {
-    //             if (user) {
-    //                 return Promise.reject('E-mail is already registered');
-    //             }
-
-    //             return Promise.resolve();
-    //         });
-    // }),
+    body('email', 'Invalid e-mail').isEmail(),
     body('password', 'Invalid password').isLength({ min: 5 }),
     body('password-confirmation', 'Passwords must match').custom((value, { req }) => {
         if (value !== req.body.password) {

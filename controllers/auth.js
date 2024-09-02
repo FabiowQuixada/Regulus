@@ -25,33 +25,31 @@ const getLogin = (req, res, next) => {
     });
 };
 
-const postLogin = (req, res, next) => {
-    const email = req.body.email;
+const postLogin = async (req, res, next) => {
+    const email    = req.body.email;
     const password = req.body.password;
+    const user     = await User.findOne({ where: { email : email } });
 
-    User.findOne({ where: { email : email } })
-        .then(user => {
-            // TODO Encrypt password in the databse;
-            if (user && password === user.password) {
-                req.session.save(err => {
-                    req.session.isUserLoggedIn = true;
-                    req.session.user = user;
-                    res.redirect('/account');
-                });
-            } else {
-                // TODO It doesn't work;
-                res
-                    .status(402)
-                    .render('/auth/login', {
-                        // userInput   : req.body,
-                        fieldErrors : {
-                            password: 'Incorrect e-mail or password.'
-                        }
-                    });
-
-                return;
-            }
+    // TODO Encrypt password in the database;
+    if (user && password === user.password) {
+        req.session.save(err => {
+            req.session.isUserLoggedIn = true;
+            req.session.user = user;
+            res.redirect('/account');
         });
+    } else {
+        // TODO It doesn't work;
+        res
+            .status(402)
+            .render('/auth/login', {
+                // userInput   : req.body,
+                fieldErrors : {
+                    password: 'Incorrect e-mail or password.'
+                }
+            });
+
+        return;
+    }
 };
 
 const postLogout = (req, res, next) => {
@@ -65,8 +63,8 @@ const postLogout = (req, res, next) => {
     });
 };
 
-const postResetPassword = (req, res, next) => {
-    crypto.randomBytes(32, (err, buffer) => {
+const postResetPassword = async (req, res, next) => {
+    crypto.randomBytes(32, async (err, buffer) => {
         if (err) {
             console.log(err);
             res.redirect('/login');
@@ -75,55 +73,43 @@ const postResetPassword = (req, res, next) => {
         const token = buffer.toString('hex');
         const inputEmail = req.body['recovery-email'];
 
-        User
-            .findOne({ where: { email: inputEmail }})
-            .then(user => {
-                if (!user) {
-                    console.log('user not found');
-                    res.redirect('/login');
-                    return;
-                }
+        const user = await User.findOne({ where: { email: inputEmail }});
 
-                user.resetPasswordToken = token;
-                user.resetPasswordTokenExpDate = Date.now() + 3600;
+        if (!user) {
+            console.log('user not found');
+            res.redirect('/login');
+            return;
+        }
 
-                return user.save();
-            })
-            .then(user => {
+        user.resetPasswordToken = token;
+        user.resetPasswordTokenExpDate = Date.now() + 3600;
 
-                mailer.send(inputEmail, 'Password Reset', `
-                    <p>
-                    Please click <a href="http://localhost:3000/reset-password/${token}">here</a> to reset your password.
-                    </p>
-                    `);
+        await user.save();
 
-                res.redirect('/');
-            })
-            .catch(err2 => {
-                console.log(err2);
-                res.redirect('/login');
-                return;
-            });
+        mailer.send(inputEmail, 'Password Reset', `
+            <p>
+            Please click <a href="http://localhost:3000/reset-password/${token}">here</a> to reset your password.
+            </p>
+            `);
+
+        res.redirect('/');
     });
 };
 
-const getResetPassword = (req, res, next) => {
+const getResetPassword = async (req, res, next) => {
     const token = req.params.token;
 
-    User.findOne({
+    const user = await User.findOne({
         resetPasswordToken: token,
         resetPasswordTokenExpDate: { $gt: Date.now() } // TODO Not working
-    })
-        .then(user => {
-            res.render('auth/new-passord', {
-                userId : user.id
-            });
+    });
 
-        });
-
+    res.render('auth/new-passord', {
+        userId : user.id
+    });
 };
 
-const postSaveNewPassword = (req, res, next) => {
+const postSaveNewPassword = async (req, res, next) => {
     const userId             = req.body['user-id'];
     const currentPassword    = req.body['current-password'];
     const newPassword        = req.body['new-password'];
@@ -134,20 +120,18 @@ const postSaveNewPassword = (req, res, next) => {
         return;
     }
 
-    User.findByPk(userId)
-        .then(user => {
-            // TODO Encrypt password in the databse;
-            if (user && currentPassword === user.password) {
-                user.password = newPassword;
-                user.resetPasswordToken = null;
-                user.resetPasswordTokenExpDate = null;
-                user.save();
+    const user = await User.findByPk(userId);
+    // TODO Encrypt password in the databse;
+    if (user && currentPassword === user.password) {
+        user.password = newPassword;
+        user.resetPasswordToken = null;
+        user.resetPasswordTokenExpDate = null;
+        user.save();
 
-                res.redirect('/');
-            } else {
-                res.redirect('/login');
-            }
-        });
+        res.redirect('/');
+    } else {
+        res.redirect('/login');
+    }
 };
 
 export default {

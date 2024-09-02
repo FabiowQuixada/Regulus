@@ -11,7 +11,18 @@ const User = sequelize.define('user', {
     email : Sequelize.STRING,
     resetPasswordToken : Sequelize.STRING,
     resetPasswordTokenExpDate : Sequelize.DATE,
-    password : Sequelize.STRING
+    password : Sequelize.STRING,
 });
+
+// TODO Improve this
+User.prototype.getOrCreateCart = async function () {
+    const cart = await this.getCart({ include: ['products'] });
+
+    if (!cart) {
+        return await this.createCart();
+    }
+
+    return cart;
+};
 
 export default User;

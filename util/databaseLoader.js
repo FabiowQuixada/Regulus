@@ -4,7 +4,19 @@ import pathUtils from './path.js';
 import ShippingMethod from '../models/shipping-method.js';
 import Product        from '../models/product.js';
 
-const loadDatabaseProductData = () => {
+const loadUserData = async () => {
+    const user = await User.findByPk(1);
+
+    if (!user) {
+        await User.create({
+            name     : 'Fabiow',
+            email    : 'ftquixada@gmail.com',
+            password : '123'
+        });
+    }
+};
+
+const loadProductData = () => {
     fs.readFile(path.join(pathUtils.root, 'data', 'products.json'), (err, fileContent) => {
 
         if (err) {
@@ -30,7 +42,7 @@ const loadDatabaseProductData = () => {
     });
 };
 
-const loadDatabaseShippingMethodData = () => {
+const loadShippingMethodData = () => {
 
     ShippingMethod.create({
         name               : 'Pick up in Store',
@@ -48,6 +60,7 @@ const loadDatabaseShippingMethodData = () => {
 };
 
 export default {
-    loadDatabaseProductData,
-    loadDatabaseShippingMethodData,
+    loadUserData,
+    loadProductData,
+    loadShippingMethodData,
 };

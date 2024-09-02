@@ -1,30 +1,24 @@
 
 import Product from '../models/product.js';
 
-const getProducts = (req, res, next) => {
-    Product.findAll()
-        .then((productList) => {
-            res.render('product/product-list', {
-                productList,
-                pageTitle: 'Shop',
-                path : '/products'
-            });
-        })
-        .catch((err) => { console.log(err); });
+const getProducts = async (req, res, next) => {
+    const productList = await Product.findAll();
+
+    res.render('product/product-list', {
+        productList,
+        pageTitle: 'Shop',
+        path : '/products'
+    });
 };
 
-const getProduct = (req, res, next) => {
-    const productId = req.params.productId;
+const getProduct = async (req, res, next) => {
+    const product = await Product.findByPk(req.params.productId);
 
-    Product.findByPk(productId)
-        .then(product => {
-            res.render('product/product-details', {
-                product,
-                pageTitle: 'Shop',
-                path : '/products'
-            });
-        })
-        .catch(err => { console.log(err);});
+    res.render('product/product-details', {
+        product,
+        pageTitle: 'Shop',
+        path : '/products'
+    });
 };
 
 export default {
