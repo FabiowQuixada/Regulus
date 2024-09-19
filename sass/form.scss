@@ -1,5 +1,5 @@
 .form-control {
-    margin: 1rem 0;
+    margin: 0.5rem;
 }
 
 .form-control label,
@@ -25,4 +25,9 @@
 
 .form-control .error-message {
     color: red;
+}
+
+.checkbox-ctnr {
+    display: flex;
+    align-items: center;
 }

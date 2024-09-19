@@ -5,9 +5,9 @@ $('input[name="shipping-address-id"]').on('change', () => {
     const selectedValue = $('input[name="shipping-address-id"]:checked').val();
 
     if (selectedValue == -1) {
-        $('.shipping-address-form-ctnr').attr('status', 'selected');
+        $('.new-shipping-address-form-ctnr').attr('status', 'selected');
     } else {
-        $('.shipping-address-form-ctnr').attr('status', 'unselected');
+        $('.new-shipping-address-form-ctnr').attr('status', 'unselected');
     }
 });
 

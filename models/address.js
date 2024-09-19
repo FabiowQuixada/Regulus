@@ -41,7 +41,7 @@ const Address = sequelize.define('address', {
 });
 
 Address.prototype.getFullAddress = function() {
-    return [this.street, this.city, this.state, this.zip, this.country].join(',');
+    return [this.street, this.city, this.state, this.zip, this.country].join(', ');
 };
 
 export default Address;

@@ -1,0 +1,71 @@
+section.checkout-step {
+    border: black 1px solid;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+form.shipping-address {
+    display: flex;
+    flex-direction: column;
+    
+    .address-list-container {
+        display: flex;
+        flex-direction: column;
+        
+        .address-tile {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+
+            .select-address {
+                padding-top: 1rem;
+            }
+            
+            .main-address-icon {
+                width: 15px;
+                height: 15px;
+            }
+            
+            .line-1 {
+                display: flex;
+                font-weight: bold;
+                align-items: center;
+            }
+            
+            .line-2 {
+                color: grey;
+                grid-area: info;
+            }
+        }
+    
+    }
+}
+
+form.shipping-method {
+    display: flex;
+    flex-direction: column;
+
+    .shipping-method-tile {
+        display: grid;
+        grid-template-areas: "radio name"
+                             ". info";
+        grid-template-columns: 1.2rem auto;
+        flex-wrap: wrap;
+
+        .name {
+            grid-area: name;
+        }
+        
+        .info {
+            display: flex;
+            grid-area: info;
+            font-weight: bold;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .estimate {
+            color: grey;
+        }
+    }
+}

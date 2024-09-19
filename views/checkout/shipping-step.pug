@@ -1,43 +1,49 @@
-h3 Shipping
-div
-    //- Used for reference in the billing step
-    input.selected-shipping-address-id(type="hidden", value=`${cart.shippingAddressId || ''}`)
+section.checkout-step
+    h3 Shipping
+    div
+        h4 Shipping Address
 
-    section 
-        form(action="/checkout/select-shipping-address" class="shipping-address-form" method="POST")
-            each address in addressList
-                header.card__header
-                    input(type="radio", name="shipping-address-id", value=address.id, checked=address.isMain)
-                if address.isMain 
-                    img(src='/images/icons/star.png', style="width: 15px; height: 15px;" alt='Main Address')
-                    b 
-                        div #{address.name}
-                    div #{address.getFullAddress()}
+        //- Used for reference in the billing step
+        input.selected-shipping-address-id(type="hidden", value=`${cart.shippingAddressId || ''}`)
+
+        section.select-address
+            form(action="/checkout/select-shipping-address" class="shipping-address" method="POST")
+                div.address-list-container
+                    each address in addressList
+                        .address-tile
+                            input.select-address(type="radio", name="shipping-address-id", value=address.id, id=`shipping-address-${address.id}`, checked=address.isMain)
+                            label(for=`shipping-address-${address.id}`)
+                                .line-1
+                                    if address.isMain
+                                        img(src='/images/icons/star.png', class="main-address-icon" alt='Main Address')
+                                    .name #{address.name}
+                                .line-2 #{address.getFullAddress()}
+                    .address-tile
+                        input.select-address(type="radio", name="shipping-address-id", id="shipping-address-new" value="-1")
+                        label.line-1(for="shipping-address-new") Use new address
+
+                .new-shipping-address-form-ctnr(status="unselected")
+                    include ./shipping-address-form
+
+                div.buttons
+                    button(type="submit", class="submit-shipping-address") Save
+
+        section.select-shipping-method
+            h4 Shipping Method
+            form(action="/checkout/set-shipping-method" class="shipping-method" method="POST")
+                .shipping-method-list-container
+                    each shippingMethod in shippingMethodList
+                        .shipping-method-tile 
+                            input(type="radio", name="shipping-method-id", value=shippingMethod.id)
+                            .name #{shippingMethod.name}
+                            .info
+                                .estimate #{shippingMethod.deliveryTimeInDays} days
+                                .cost 
+                                    if shippingMethod.cost > 0
+                                        div $#{shippingMethod.cost}
+                                    else
+                                        div FREE
+
+                    div.buttons
+                        button(type="submit") Save
             
-            header.card__header
-                input(type="radio", name="shipping-address-id", value="-1")
-                div Use new address
-
-            .shipping-address-form-ctnr(status="unselected")
-                include ./shipping-address-form
-
-            div.buttons
-                button(type="submit", class="submit-shipping-address") Save
-
-    section
-        form(action="/checkout/set-shipping-method" class="shipping-method-form" method="POST")
-            each shippingMethod in shippingMethodList
-                header.card__header
-                    input(type="radio", name="shipping-method-id", value=shippingMethod.id)
-                    b 
-                        div #{shippingMethod.name}
-                    div 
-                        if shippingMethod.cost > 0
-                            div $#{shippingMethod.cost}
-                        else
-                            div FREE
-                    div #{shippingMethod.deliveryTimeInDays} days
-
-            div.buttons
-                button(type="submit") Save
-        
