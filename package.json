@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "test": "mocha",
-    "a": "call .\\sendgrid.env"
+    "start": "nodemon  --inspect app"
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.3",
