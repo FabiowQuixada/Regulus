@@ -11,10 +11,14 @@ block styles
 block content
     h1 Checkout (#{currentStep})
 
-    include login-step
-    include shipping-step
-    include payment-step
-    include review-step
+    .checkout-ctnr
+        .main
+            include login-step
+            include shipping-step
+            include payment-step
+            include review-step
 
-    form(action="/checkout/place-order", method="POST")
-        button.btn(type="submit") Place Order
+            form(action="/checkout/place-order", method="POST")
+                button.btn(type="submit") Place Order
+        .order-summary
+            include order-summary

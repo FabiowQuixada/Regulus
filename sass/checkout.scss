@@ -36,8 +36,7 @@ form.shipping-address {
                 color: grey;
                 grid-area: info;
             }
-        }
-    
+        }   
     }
 }
 
@@ -59,13 +58,40 @@ form.shipping-method {
         .info {
             display: flex;
             grid-area: info;
-            font-weight: bold;
             justify-content: space-between;
             align-items: center;
         }
         
+        .cost {
+            font-weight: bold;
+        }
+
         .estimate {
             color: grey;
+        }
+    }
+}
+
+.checkout-ctnr {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .main {
+        flex-grow: 1;
+    }
+
+    .order-summary {
+        width: 20rem;
+        padding: 1rem;
+
+        .totals-ctnr {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            .value {
+                text-align: end;
+            }
         }
     }
 }
