@@ -1,7 +1,15 @@
-section.checkout-step {
+* {
+    outline: blue 1px solid;
+}
+
+@mixin compent-border {
     border: black 1px solid;
     border-radius: 5px;
     padding: 1rem;
+  }
+
+section.checkout-step {
+    @include compent-border;
 }
 
 form.shipping-address {
@@ -44,12 +52,22 @@ form.shipping-method {
     display: flex;
     flex-direction: column;
 
+    .shipping-method-list-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    
     .shipping-method-tile {
         display: grid;
         grid-template-areas: "radio name"
-                             ". info";
+        ". info";
         grid-template-columns: 1.2rem auto;
         flex-wrap: wrap;
+        width: 48%;
+        justify-content: space-between;
+        @include compent-border;
+        padding: 1rem 1.5rem;
 
         .name {
             grid-area: name;
@@ -72,6 +90,10 @@ form.shipping-method {
     }
 }
 
+div.buttons {
+    margin: 1rem 0 ;
+}
+
 .checkout-ctnr {
     display: flex;
     flex-wrap: wrap;
@@ -89,7 +111,7 @@ form.shipping-method {
             display: grid;
             grid-template-columns: 1fr 1fr;
 
-            .value {
+            :nth-child(even) {
                 text-align: end;
             }
         }
