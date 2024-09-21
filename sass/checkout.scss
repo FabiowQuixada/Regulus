@@ -8,7 +8,8 @@
     padding: 1rem;
   }
 
-section.checkout-step {
+section.checkout-step,
+section.order-summary {
     @include compent-border;
 }
 

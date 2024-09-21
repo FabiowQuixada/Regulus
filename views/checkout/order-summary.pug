@@ -1,17 +1,18 @@
-h5 Order Summary
-//- if cart.productList.length > 0
-//-     each product in cart.productList
-//-         header.card__header
-//-             h1.product__title #{product.title} (#{product.id})
-//-             .card__image
-//-                 img(src=`${product.imageUrl}`, alt=`${product.title}`)
-//-             .card__content
-//-                 h2.product__price #{product.price}
-//-                 p.product__description Quantity: #{product.productLineItem.quantity}
-//-             .card__actions
+section.order-summary
+    h5 Order Summary
+    //- if cart.productList.length > 0
+    //-     each product in cart.productList
+    //-         header.card__header
+    //-             h1.product__title #{product.title} (#{product.id})
+    //-             .card__image
+    //-                 img(src=`${product.imageUrl}`, alt=`${product.title}`)
+    //-             .card__content
+    //-                 h2.product__price #{product.price}
+    //-                 p.product__description Quantity: #{product.productLineItem.quantity}
+    //-             .card__actions
 
-.totals-ctnr
-    div Shipment:
-    div $222
-    div Total:
-    div $123
+    .totals-ctnr
+        div Shipment:
+        div $222
+        div Total:
+        div $123
