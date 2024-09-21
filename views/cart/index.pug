@@ -1,22 +1,26 @@
 extends ../layouts/main
 
+block styles
+    link(rel='stylesheet', href='/css/cart.css')
+
 block content
     h1 Cart
 
-    if productList.length > 0
-        each product in productList
-            header.card__header
-                h1.product__title #{product.title} (#{product.id})
-                .card__image
-                    img(src=`${product.imageUrl}`, alt=`${product.title}`)
-                .card__content
-                    h2.product__price #{product.price}
-                    p.product__description Quantity: #{product.productLineItem.quantity}
-                .card__actions
-                    form(action="/cart/remove-product" method="post")
-                        input(type="hidden", name="productId", value=`${product.id}`)
-                        button.btn(type="submit") Remove from Cart
-    else
-        div Your cart is empty.
+    .cart-ctnr
+        .main
+            if productList.length > 0
+                each product in productList
+                    section.product-tile
+                        h1.product__title #{product.title} (#{product.id})
+                        .card__image
+                            img(src=`${product.imageUrl}`, alt=`${product.title}`)
+                        .card__content
+                            h2.product__price #{product.price}
+                            p.product__description Quantity: #{product.productLineItem.quantity}
+                        .card__actions
+                            form(action="/cart/remove-product" method="post")
+                                input(type="hidden", name="productId", value=`${product.id}`)
+                                button.btn(type="submit") Remove from Cart
 
-    include ./minicart
+        .order-summary
+            include ./minicart

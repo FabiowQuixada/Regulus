@@ -1,0 +1,20 @@
+@import './main.scss';
+
+section.product-tile {
+    @include compent-border;
+}
+
+.cart-ctnr {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+
+    .main {
+        flex-grow: 1;
+    }
+
+    .order-summary {
+        width: 20rem;
+        padding: 1rem;
+    }
+}
