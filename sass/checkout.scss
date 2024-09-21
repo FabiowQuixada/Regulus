@@ -1,12 +1,4 @@
-* {
-    outline: blue 1px solid;
-}
-
-@mixin compent-border {
-    border: black 1px solid;
-    border-radius: 5px;
-    padding: 1rem;
-  }
+@import './main.scss';
 
 section.checkout-step,
 section.order-summary {

@@ -2,7 +2,15 @@
 
 * {
   box-sizing: border-box;
+  outline: blue 1px solid;
 }
+
+@mixin compent-border {
+  border: black 1px solid;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
 
 body {
   padding: 0;
