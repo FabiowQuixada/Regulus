@@ -2,6 +2,7 @@ extends ../layouts/main
 
 block styles
     link(rel='stylesheet', href='/css/cart.css')
+    link(rel='stylesheet', href='/css/checkout.css')
 
 block content
     h1 Cart
@@ -11,11 +12,11 @@ block content
             if productList.length > 0
                 each product in productList
                     section.product-tile
-                        h1.product__title #{product.title} (#{product.id})
                         .card__image
                             img(src=`${product.imageUrl}`, alt=`${product.title}`)
                         .card__content
-                            h2.product__price #{product.price}
+                            h4.product__title #{product.title}
+                            h5.product__price #{product.price}
                             p.product__description Quantity: #{product.productLineItem.quantity}
                         .card__actions
                             form(action="/cart/remove-product" method="post")
@@ -23,4 +24,5 @@ block content
                                 button.btn(type="submit") Remove from Cart
 
         .order-summary
-            include ./minicart
+            include ../checkout/order-summary
+            a(href='/checkout', class=(path === '/' ? 'active' : '')) Continue to Checkout

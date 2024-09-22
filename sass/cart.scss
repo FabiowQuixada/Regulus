@@ -2,6 +2,8 @@
 
 section.product-tile {
     @include compent-border;
+
+    display: flex;
 }
 
 .cart-ctnr {
