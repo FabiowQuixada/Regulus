@@ -1,4 +1,5 @@
 import { sequelize, Sequelize } from '../util/database.js';
+import path from 'path';
 
 const Product = sequelize.define('product', {
     id : {
@@ -20,5 +21,10 @@ const Product = sequelize.define('product', {
     year : Sequelize.INTEGER,
     moreInfoUrl : Sequelize.STRING
 });
+
+Product.prototype.getImageUrl = function() {
+
+    return path.join('public', this.imagePath);
+};
 
 export default Product;

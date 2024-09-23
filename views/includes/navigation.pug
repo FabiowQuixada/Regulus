@@ -11,7 +11,7 @@ block navigation
                 .cart-data
                     a(href='/cart', class=(path === '/cart' ? 'active' : '')) Cart
                     if cartProductQty > 0
-                        div (#{cartProductQty})
+                        .product-quantity (#{cartProductQty})
                 
                 .account-data
                     if isUserLoggedIn

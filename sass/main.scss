@@ -2,7 +2,7 @@
 
 * {
   box-sizing: border-box;
-  outline: blue 1px solid;
+  // outline: blue 1px solid;
 }
 
 @mixin compent-border {
@@ -10,7 +10,6 @@
   border-radius: 5px;
   padding: 1rem;
 }
-
 
 body {
   padding: 0;
@@ -64,6 +63,10 @@ main {
 .user-area {
   display: flex;
   gap: 1rem;
+}
+
+.product-quantity {
+  padding-left: 0.4rem;
 }
 
 .cart-data {
