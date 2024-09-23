@@ -40,7 +40,7 @@ section.checkout-step
                                 .estimate #{shippingMethod.deliveryTimeInDays} days
                                 .cost 
                                     if shippingMethod.cost > 0
-                                        div $#{shippingMethod.cost}
+                                        div #{shippingMethod.cost.format()}
                                     else
                                         div FREE
 

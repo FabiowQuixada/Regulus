@@ -13,6 +13,6 @@ section.order-summary
 
     .totals-ctnr
         div Shipment:
-        div $222
+        div #{cart.getShppingCost() ? cart.getShppingCost().format() : '--'}
         div Total:
-        div $123
+        div #{cart.getTotalPrice().format()}

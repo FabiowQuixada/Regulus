@@ -1,5 +1,6 @@
 import { sequelize, Sequelize } from '../util/database.js';
 import path from 'path';
+import currency from 'currency.js';
 
 const Product = sequelize.define('product', {
     id : {
@@ -11,7 +12,10 @@ const Product = sequelize.define('product', {
     title : Sequelize.STRING,
     price : {
         type : Sequelize.DOUBLE,
-        allowNull: false
+        allowNull: false,
+        get() {
+            return currency(this.getDataValue('price'));
+        }
     },
     imagePath : Sequelize.STRING,
     author: Sequelize.STRING,
@@ -23,7 +27,6 @@ const Product = sequelize.define('product', {
 });
 
 Product.prototype.getImageUrl = function() {
-
     return path.join('public', this.imagePath);
 };
 

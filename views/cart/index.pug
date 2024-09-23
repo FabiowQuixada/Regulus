@@ -16,7 +16,7 @@ block content
                             img(src=`${product.imageUrl}`, alt=`${product.title}`)
                         .card__content
                             h4.product__title #{product.title}
-                            h5.product__price #{product.price}
+                            h5.product__price #{product.price.format()}
                             p.product__description Quantity: #{product.productLineItem.quantity}
                         .card__actions
                             form(action="/cart/remove-product" method="post")

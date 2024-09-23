@@ -1,4 +1,5 @@
 import { sequelize, Sequelize } from '../util/database.js';
+import currency from 'currency.js';
 
 const ShippingMethod = sequelize.define('shipping-method', {
     id                 : {
@@ -9,7 +10,12 @@ const ShippingMethod = sequelize.define('shipping-method', {
     },
     name               : Sequelize.STRING,
     imagePath          : Sequelize.STRING,
-    cost               : Sequelize.DOUBLE,
+    cost               : {
+        type: Sequelize.DOUBLE,
+        get() {
+            return currency(this.getDataValue('cost'));
+        }
+    },
     deliveryTimeInDays : Sequelize.INTEGER,
 });
 

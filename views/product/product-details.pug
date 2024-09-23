@@ -14,7 +14,7 @@ block content
                 // TODO Image not displayed
             div #{product.imagePath}
             .card__content
-                h2.product__price #{product.price}
+                h2.product__price #{product.price.format()}
                 p.product__description #{product.description}
                 p Author: #{product.author}
                 p Language: #{product.language}
