@@ -37,7 +37,20 @@ const Address = sequelize.define('address', {
         allowNull : false,
         notEmpty  : true,
     },
-    isMain  :  Sequelize.BOOLEAN
+    isMain : {
+        type : Sequelize.BOOLEAN,
+        validate: {
+            // Maybe there is a slightly better way to mark all other addresses as not-main;
+            async customValidator(isMain) {
+                if (isMain) {
+                    await Address.update(
+                        { isMain: false },
+                        { where: { userId: this.userId } }
+                    );
+                }
+            }
+        },
+    }
 });
 
 Address.prototype.getFullAddress = function() {

@@ -71,16 +71,6 @@ const postSaveAddress = async (req, res, next) => {
         if (addressId) {
             const address = await Address.findByPk(addressId);
             if (address) {
-                // TODO Put validation in the model;
-                if (isMainAddress) {
-                    await Address.update(
-                        { isMain : false },
-                        { where : {
-                            id : { [Op.not]: addressId }
-                        }}
-                    );
-                }
-
                 address.name    = req.body.name;
                 address.street  = req.body.street;
                 address.city    = req.body.city;
@@ -91,15 +81,6 @@ const postSaveAddress = async (req, res, next) => {
                 await address.save();
             }
         } else {
-            if (isMainAddress) {
-                await Address.update(
-                    { isMain : false },
-                    { where : {
-                        id : { [Op.not]: addressId }
-                    }}
-                );
-            }
-
             await user.createAddress({
                 name    : req.body.name,
                 street  : req.body.street,

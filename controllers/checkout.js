@@ -57,16 +57,6 @@ const postSaveAddress = async (req, res, next) => {
     const isNewAddress = addressId == -1;
 
     if (isNewAddress) {
-        if (req.body.shouldSetAsMain == 'true') {
-            // TODO Put in the model;
-            await Address.update(
-                { isMain : false },
-                { where : {
-                    id : { [Op.not]: addressId }
-                }}
-            );
-        }
-
         const newAddress = await Address
             .create({
                 name    : req.body.name,
@@ -117,16 +107,6 @@ const postSetBillingAddress = async (req, res, next) => {
     const isNewAddress = addressId == -1;
 
     if (isNewAddress) {
-        if (req.body.shouldSetAsMain == 'true') {
-            // TODO Put in model
-            await Address.update(
-                { isMain : false },
-                { where : {
-                    id : { [Op.not]: addressId }
-                }}
-            );
-        }
-
         const newAddress = Address.create({
             name    : req.body.name,
             street  : req.body.street,
