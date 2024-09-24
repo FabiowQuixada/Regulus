@@ -5,7 +5,7 @@ import session from 'express-session';
 import temp from 'connect-session-sequelize';
 import routes from './routes.js';
 import { sequelize } from './util/database.js';
-import databaseLoader from './util/databaseLoader.js';
+import databaseLoader from './util/database-loader.js';
 
 // Sequelize Models
 import User            from './models/user.js';

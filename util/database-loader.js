@@ -2,6 +2,7 @@ import fs        from 'fs';
 import path      from 'path';
 import pathUtils from './path.js';
 import ShippingMethod from '../models/shipping-method.js';
+import User           from '../models/user.js';
 import Product        from '../models/product.js';
 
 const loadUserData = async () => {
