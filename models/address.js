@@ -4,42 +4,59 @@ const Address = sequelize.define('address', {
     id : {
         type          : Sequelize.INTEGER,
         autoIncrement : true,
-        allowNull     : false,
         primaryKey    : true
     },
     name    : {
-        type      : Sequelize.STRING,
-        allowNull : false,
-        notEmpty  : true,
+        type     : Sequelize.STRING,
+        validate : {
+            notEmpty : {
+                msg: 'This field is mandatory'
+            }
+        }
     },
     street  : {
-        type      : Sequelize.STRING,
-        allowNull : false,
-        notEmpty  : true,
+        type     : Sequelize.STRING,
+        validate : {
+            notEmpty : {
+                msg: 'This field is mandatory'
+            }
+        }
     },
     city    : {
-        type      : Sequelize.STRING,
-        allowNull : false,
-        notEmpty  : true,
+        type     : Sequelize.STRING,
+        validate : {
+            notEmpty : {
+                msg: 'This field is mandatory'
+            }
+        }
     },
     state   : {
-        type      : Sequelize.STRING,
-        allowNull : false,
-        notEmpty  : true,
+        type     : Sequelize.STRING,
+        validate : {
+            notEmpty : {
+                msg: 'This field is mandatory'
+            }
+        }
     },
     zip     : {
-        type      : Sequelize.STRING,
-        allowNull : false,
-        notEmpty  : true,
+        type     : Sequelize.STRING,
+        validate : {
+            notEmpty : {
+                msg: 'This field is mandatory'
+            }
+        }
     },
     country : {
-        type      : Sequelize.STRING,
-        allowNull : false,
-        notEmpty  : true,
+        type     : Sequelize.STRING,
+        validate : {
+            notEmpty : {
+                msg: 'This field is mandatory'
+            }
+        }
     },
     isMain : {
-        type : Sequelize.BOOLEAN,
-        validate: {
+        type     : Sequelize.BOOLEAN,
+        validate : {
             // Maybe there is a slightly better way to mark all other addresses as not-main;
             async customValidator(isMain) {
                 if (isMain) {

@@ -1,7 +1,10 @@
 extends ../../layouts/main
 
+block jsIncludes
+    script(src="/js/address.js", type="module")
+
 block styles
-    link(rel='stylesheet', href='/css/form')
+    link(rel='stylesheet', href='/css/form.css')
 
 block content 
     div #{mode === 'new' ? 'New Address' : 'Edit Address'}
