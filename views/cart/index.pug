@@ -9,8 +9,8 @@ block content
 
     .cart-ctnr
         .main
-            if productList.length > 0
-                each product in productList
+            if cart.products.length > 0
+                each product in cart.products
                     section.product-tile
                         .card__image
                             img(src=`${product.imageUrl}`, alt=`${product.title}`)

@@ -45,9 +45,8 @@ const show = async (req, res, next) => {
         const user = await User.findByPk(userId);
         const cart = await user.getOrCreateCart();
 
-        // TODO Pass cart as parameter instead
         res.render('cart/index', {
-            productList: cart.products
+            cart
         });
     } else {
         res.render('cart/index', {
