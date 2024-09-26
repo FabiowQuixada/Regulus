@@ -6,12 +6,12 @@ const send = (to, subject, htmlContent) => {
 
     const msg = {
         to,
-        from    : 'ftquixada@gmail.com', // TODO Put in environment variable
+        from    : process.env.EMAIL_SENDER,
         subject,
         html    : htmlContent
     };
 
-    sgMail.setApiKey('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'); // TODO put in env file;
+    sgMail.setApiKey(process.env.EMAIL_SENDGRID_SK);
 
     sgMail
         .send(msg)

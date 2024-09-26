@@ -1,13 +1,10 @@
-import { Op }         from 'sequelize';
 import Address        from '../models/address.js';
 import ShippingMethod from '../models/shipping-method.js';
 import User           from '../models/user.js';
 import Stripe         from 'stripe';
 
 const show = async (req, res, next) => {
-    // TODO Put in env variable;
-    const stripe = Stripe('sk_test_51Po8PdFDBwKaWQBpfjT7q57Tgjj3h2WIZyWdMYI0sAeasmfeL3cakDIlbl8NUruDRjli1jLOY59HPmkftl3bw5mj00htii0t7Y');
-
+    const stripe      = Stripe(process.env.STRIPE_SK);
     const productList = req.session.user.cart.products;
     if (productList.length == 0) {
         // throw new Error('Cart is empty');

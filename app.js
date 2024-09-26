@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import session from 'express-session';
 import temp from 'connect-session-sequelize';
+import dotenv from 'dotenv';
 import routes from './routes.js';
 import { sequelize } from './util/database.js';
 import databaseLoader from './util/database-loader.js';
@@ -16,13 +17,15 @@ import ProductLineItem from './models/product-line-item.js';
 import Address         from './models/address.js';
 import ShippingMethod  from './models/shipping-method.js';
 
+dotenv.config();
+
 const SequelizeStore = temp(session.Store);
 
 const app = express();
 
 app.use(
     session({
-        secret: 'keyboard cat',
+        secret: process.env.SESSION_SECRET,
         store: new SequelizeStore({
             db: sequelize,
         }),
