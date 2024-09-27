@@ -15,7 +15,6 @@ import User                from './models/user.js';
 const router = express.Router();
 
 router.get('/', homeController.getHome);
-router.get('/products', productsController.getProducts);
 router.get('/products/:productId', productsController.getProduct);
 
 // Authentication;
