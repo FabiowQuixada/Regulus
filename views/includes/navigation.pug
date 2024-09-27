@@ -1,23 +1,46 @@
 block navigation
-    header.main-header
-        nav.main-header__nav
-            ul.main-header__item-list
-                li.main-header__item
-                    a(href='/', class=(path === '/' ? 'active' : '')) Regulus
-                li.main-header__item
-                    a(href='/products', class=(path === '/products' ? 'active' : '')) Products
-
-            .user-area
-                .cart-data
-                    a(href='/cart', class=(path === '/cart' ? 'active' : '')) Cart
-                    if cartProductQty > 0
-                        .product-quantity (#{cartProductQty})
-                
-                .account-data
-                    if isUserLoggedIn
-                        div Hi, #[a(href="/account") #{userName}]!
-                        form(action="/logout", method="POST")
-                            button.btn(type="submit") Logout
-                    else
-                        a(href='/login', class=(path === '/login' ? 'active' : '')) Login
-                        a(href='/signup', class=(path === '/signup' ? 'active' : '')) Signup
+    nav.navbar.navbar-expand-lg.bg-body-tertiary
+        .container-fluid
+            a.navbar-brand(href='/') Regulus
+            .cart-data.d-flex
+                a(href='/cart', class=(path === '/cart' ? 'active' : '')) Cart
+                if cartProductQty > 0
+                    .product-quantity (#{cartProductQty})
+            button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+                ul.navbar-nav.me-auto.mb-2.mb-lg-0
+                    li.nav-item.dropdown.d-none.d-md-block
+                        a.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
+                            Dropdown Hi, #{userName}!
+                        ul.dropdown-menu
+                            if isUserLoggedIn
+                                li.nav-item
+                                    a(href="#") Personal Info
+                                li.nav-item
+                                    a(href="/account/orders") My Orders
+                                li.nav-item
+                                    a(href="/account/orders") My Payment methods
+                                li.nav-item
+                                    a(href="/account/addresses") My Addresses
+                                li
+                                    hr.dropdown-divider
+                                li.nav-item
+                                    form.d-flex(action="/logout", method="POST")
+                                        button.btn.btn-outline-success(type='submit') Logout
+                            else
+                                a(href='/login', class=(path === '/login' ? 'active' : '')) Login
+                                a(href='/signup', class=(path === '/signup' ? 'active' : '')) Signup
+                    li.nav-item.d-block.d-md-none
+                        a(href="#") Personal Info
+                    li.nav-item.d-block.d-md-none
+                        a(href="/account/orders") My Orders
+                    li.nav-item.d-block.d-md-none
+                        a(href="/account/orders") My Payment methods
+                    li.nav-item.d-block.d-md-none
+                        a(href="/account/addresses") My Addresses
+                    li.d-block.d-md-none
+                        hr.dropdown-divider
+                    li.nav-item.d-block.d-md-none
+                        form.d-flex(action="/logout", method="POST")
+                            button.btn.btn-outline-success(type='submit') Logout
