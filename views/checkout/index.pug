@@ -10,10 +10,11 @@ block styles
 block content
     h1 Checkout (#{currentStep})
 
-    .checkout-ctnr
-        .main
-            include shipping-step
-            include payment-step
-
-        .order-summary
-            include order-summary
+    .container
+        .row
+            .col-md-4
+                include shipping-step
+            .col-md-4
+                include payment-step
+            .col-md-4
+                include order-summary
