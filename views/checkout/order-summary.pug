@@ -12,7 +12,13 @@ section.order-summary
     //-             .card__actions
 
     .totals-ctnr
-        div Shipment:
-        div #{cart.getShppingCost() ? cart.getShppingCost().format() : '--'}
-        div Total:
-        div #{cart.getTotalPrice().format()}
+        .row 
+            .col-6
+                | Shipment:
+            .col-6.text-end
+                div #{cart.getShppingCost() ? cart.getShppingCost().format() : '--'}
+        .row 
+            .col-6
+                | Total:
+            .col-6.text-end
+                div #{cart.getTotalPrice().format()}
