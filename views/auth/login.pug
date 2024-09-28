@@ -4,36 +4,56 @@ block styles
     link(rel='stylesheet', href='/css/form.css')
 
 block content 
-    div Login
+    .container
+        | Login
         form(action="/login", class="form-login" method="POST")
-            div.form-control
-                label(for="email") E-mail
+            .mb-3
+                label(for="email")
+                    | E-mail
                 input(
                     type="text",
                     name="email",
-                    class=`${fieldErrors.email ? 'invalid' : ''}`
+                    class=`form-control ${fieldErrors.email ? 'invalid' : ''}`
                     id="email",
                     value=`${userInput.email || ''}`)
                 .error-message #{fieldErrors.email}
-            div.form-control
-                label(for="password") Password
+            .mb-3
+                label(for="password")
+                    | Password
                 input(
                     type="password",
                     name="password",
-                    class=`${fieldErrors.password ? 'invalid' : ''}`
+                    class=`form-control ${fieldErrors.password ? 'invalid' : ''}`
                     id="password",
                     value=`${userInput.password || ''}`)
                 .error-message #{fieldErrors.password}
-            button.btn(type="submit") Login
-        
-        form(action="/reset-password", class="form-reset-password" method="POST")
-            div.form-control
-                label(for="recovery-email") E-mail
-                input(
-                    type="text",
-                    name="recovery-email",
-                    class=`${fieldErrors['recovery-email'] ? 'invalid' : ''}`
-                    id="recovery-email",
-                    value=`${userInput['recovery-email'] || ''}`)
-                .error-message #{fieldErrors['recovery-email']}
-            button.btn(type="submit") Reset Password
+            button.btn.btn-primary(type="submit")
+                | Login
+            a.btn.btn-primary(type='button' data-bs-toggle='modal' data-bs-target='#password-recovery-modal')
+                | Forgot your password?
+
+
+    // Password recovery modal
+    #password-recovery-modal.modal.fade(tabindex='-1' aria-labelledby='password-recovery-modal-label' aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                form(action="/reset-password", class="form-reset-password" method="POST")
+                    .modal-header
+                        h1#password-recovery-modal-label.modal-title.fs-5
+                            | Recover Password
+                        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                    .modal-body
+                            .mb-3
+                                label(for="recovery-email") 
+                                    | E-mail
+                                input(
+                                    type="text",
+                                    name="recovery-email",
+                                    class=`form-control ${fieldErrors['recovery-email'] ? 'invalid' : ''}`
+                                    id="recovery-email",
+                                    value=`${userInput['recovery-email'] || ''}`)
+                                //- .error-message #{fieldErrors['recovery-email']}
+                    .modal-footer
+                        button.btn.btn-primary(type="submit") 
+                            | Reset Password
+                    
