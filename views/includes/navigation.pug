@@ -12,7 +12,10 @@ block navigation
                 ul.navbar-nav.me-auto.mb-2.mb-lg-0
                     li.nav-item.dropdown.d-none.d-md-block
                         a.nav-link.dropdown-toggle(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
-                            Dropdown Hi, #{userName}!
+                            if isUserLoggedIn
+                                Dropdown Hi, #{userName}!
+                            else
+                               span Hi, guest!
                         ul.dropdown-menu
                             if isUserLoggedIn
                                 li.nav-item
@@ -29,8 +32,10 @@ block navigation
                                     form.d-flex(action="/logout", method="POST")
                                         button.btn.btn-outline-success(type='submit') Logout
                             else
-                                a(href='/login', class=(path === '/login' ? 'active' : '')) Login
-                                a(href='/signup', class=(path === '/signup' ? 'active' : '')) Signup
+                                li.nav-item
+                                    a(href='/login', class=(path === '/login' ? 'active' : '')) Login
+                                li.nav-item
+                                    a(href='/signup', class=(path === '/signup' ? 'active' : '')) Signup
                     li.nav-item.d-block.d-md-none
                         a(href="#") Personal Info
                     li.nav-item.d-block.d-md-none
