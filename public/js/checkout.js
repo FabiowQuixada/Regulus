@@ -1,13 +1,8 @@
 const stripe = Stripe('pk_test_51Po8PdFDBwKaWQBp0jD0H4vLsoEvOGhPWaKIl9iXVBkALUWCysYLHXNtvngK4QPzq5vtwEMEcFc1cNYHI1PfHW9U00zGn7D286');
 
 $('input[name="shipping-address-id"]').on('change', () => {
-    const selectedValue = $('input[name="shipping-address-id"]:checked').val();
-
-    if (selectedValue == -1) {
-        $('.new-shipping-address-form-ctnr').attr('status', 'selected');
-    } else {
-        $('.new-shipping-address-form-ctnr').attr('status', 'unselected');
-    }
+    const isSavedAddressSelected = $('input[name="shipping-address-id"]:checked').val() != -1;
+    $('.new-shipping-address-form-ctnr').toggleClass('d-none', isSavedAddressSelected);
 });
 
 $('form.shipping-address-form').on('submit', e => {

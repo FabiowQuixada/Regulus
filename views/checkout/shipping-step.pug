@@ -1,5 +1,5 @@
 section.checkout-step
-    h3 Shipping
+    h3 Shipment
     div
         h4 Shipping Address
 
@@ -7,43 +7,44 @@ section.checkout-step
         input.selected-shipping-address-id(type="hidden", value=`${cart.shippingAddressId || ''}`)
 
         section.select-address
-            form(action="/checkout/select-shipping-address" class="shipping-address" method="POST")
+            form.shipping-address.needs-validation(action="/checkout/select-shipping-address" method="POST" novalidate)
                 div.address-list-container
                     each address in addressList
-                        .address-tile
-                            input.select-address(type="radio", name="shipping-address-id", value=address.id, id=`shipping-address-${address.id}`, checked=address.isMain)
+                        .address-tile.form-check
+                            input.select-address.form-check-input(type="radio", name="shipping-address-id", value=address.id, id=`shipping-address-${address.id}`, checked=address.isMain)
                             label(for=`shipping-address-${address.id}`)
-                                .line-1
+                                .line-1.form-check-label
                                     if address.isMain
                                         img(src='/images/icons/star.png', class="main-address-icon" alt='Main Address')
                                     .name #{address.name}
                                 .line-2 #{address.getFullAddress()}
-                    .address-tile
-                        input.select-address(type="radio", name="shipping-address-id", id="shipping-address-new" value="-1")
-                        label.line-1(for="shipping-address-new") Use new address
+                    .address-tile.form-check
+                        input.form-check-input.select-address(type="radio", name="shipping-address-id", id="shipping-address-new" value="-1")
+                        label.line-1.form-check-label(for="shipping-address-new") Use new address
 
-                .new-shipping-address-form-ctnr(status="unselected")
+                .new-shipping-address-form-ctnr.container.d-none
                     include ./shipping-address-form
 
                 div.buttons
-                    button.btn(type="submit", class="submit-shipping-address") Continue
+                    button.btn.btn-primary(type="submit", class="submit-shipping-address") Continue
 
         section.select-shipping-method
             h4 Shipping Method
-            form(action="/checkout/set-shipping-method" class="shipping-method" method="POST")
+            form.shipping-method.needs-validation(action="/checkout/set-shipping-method" method="POST" novalidate)
                 .shipping-method-list-container
                     each shippingMethod in shippingMethodList
-                        .shipping-method-tile 
-                            input(type="radio", name="shipping-method-id", value=shippingMethod.id)
-                            .name #{shippingMethod.name}
-                            .info
-                                .estimate #{shippingMethod.deliveryTimeInDays} days
-                                .cost 
-                                    if shippingMethod.cost > 0
-                                        div #{shippingMethod.cost.format()}
-                                    else
-                                        div FREE
+                        .shipping-method-tile.mb-3.form-check
+                            input.form-check-input(type="radio", id=`shipping-method-${shippingMethod.id}` name="shipping-method-id", value=shippingMethod.id)
+                            label.form-check-label(for=`shipping-method-${shippingMethod.id}`)
+                                .name #{shippingMethod.name}
+                                .info
+                                    .estimate #{shippingMethod.deliveryTimeInDays} days
+                                    .cost 
+                                        if shippingMethod.cost > 0
+                                            div #{shippingMethod.cost.format()}
+                                        else
+                                            div FREE
 
                 div.buttons
-                    button.btn(type="submit") Continue
+                    button.btn.btn-primary(type="submit") Continue
             

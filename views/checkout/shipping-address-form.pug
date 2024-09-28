@@ -1,12 +1,24 @@
-input(type="text", class="form-control name",    name="name",   placeholder="Address Name")
-input(type="text", class="form-control street",  name="street", placeholder="Street")
-input(type="text", class="form-control city",    name="city",   placeholder="City")
-input(type="text", class="form-control state",   name="state",  placeholder="State")
-input(type="text", class="form-control zip",     name="zip",    placeholder="Zip")
-input(type="text", class="form-control country", name="country" placeholder="Country")
-.checkbox-ctnr
-    input(type="checkbox", class="form-control should-save-address", name="should-save-address")
-    div Save address
-.checkbox-ctnr
-    input(type="checkbox", class="form-control should-set-as-main", name="is-main")
-    div Set as main address
+.mb-3
+    label(for="address-name") Address Name
+    input#address-name.name.form-control(type="text", name="name")
+.mb-3
+    label(for="street") Street
+    input#street.street.form-control(type="text", name="street")
+.mb-3
+    label(for="city") City
+    input#city.city.form-control(type="text", name="city")
+.mb-3
+    label(for="state") State
+    input#state.state.form-control(type="text", name="state")
+.mb-3
+    label(for="zip") ZIP Code
+    input#zip.zip.form-control(type="text", name="zip")
+.mb-3
+    label(for="country") Country
+    input#country.country.form-control(type="text", name="country")
+.mb-3.form-check
+    input#should-save-address.should-save-address.form-check-input(type="checkbox", name="should-save-address")
+    label.form-check-label(for="should-save-address") Save address
+.mb-3.form-check
+    input#should-set-as-main.form-check-input.should-set-as-main(type="checkbox", name="is-main")
+    label.form-check-label(for="should-save-address") Set as main address
