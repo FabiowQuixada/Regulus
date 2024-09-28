@@ -1,23 +1,24 @@
 extends ../layouts/main
 
 block styles
-    link(rel='stylesheet', href='/css/product.css')
+    link(rel='stylesheet', href='/css/plp.css')
 
 block content
     if productList.length > 0
-        .grid
-            each product in productList
-                article.card.product-item
-                    header.card__header
-                        h1.product__title #{product.title}
-                    .card__image
-                        img(src=`${product.imagePath}`, alt=`${product.title}`) 
-                    div #{product.imagePath}
-                    .card__content
-                        h2.product__price #{product.price.format()}
-                        p.product__description #{product.description}
-                    .card__actions
-                        a.btn(href=`/products/${product.id}`) Details
-                        include ../includes/product/add-to-cart
+        .container
+            .row
+                each product, index in productList
+                    article.product-tile.d-flex.flex-column.col.text-center
+                        .product-tile__image
+                            a(href=`/products/${product.id}`)
+                                img(src=`${product.imagePath}`, alt=`${product.title}`) 
+                        .product-tile__title
+                            a(href=`/products/${product.id}`)
+                                div.product__title #{product.title}
+                        //- div #{product.imagePath}
+                        .product-tile__content
+                            div.product__price #{product.price.format()}
+                        .product-tile__actions
+                            include ../includes/product/add-to-cart
     else
         h1 No products

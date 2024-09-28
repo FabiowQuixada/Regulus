@@ -1,0 +1,22 @@
+.product-tile {
+    row-gap: 0.5rem;
+    border: 1px solid black;
+    padding: 0.5rem;
+}
+
+.product-tile__image {
+    width: 150px;
+}
+
+.product-tile__image img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.product-tile__title {
+    text-align: center;
+}
+
+.container {
+    gap: 1rem;
+}
