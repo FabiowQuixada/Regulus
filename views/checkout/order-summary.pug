@@ -22,3 +22,7 @@ section.order-summary
                 | Total:
             .col-6.text-end
                 div #{cart.getTotalPrice().format()}
+
+    form.shipping-address(action="/checkout/place-order" method="POST" novalidate)
+        button.btn.btn-primary(disabled)
+            | Place Order

@@ -28,7 +28,7 @@ const show = async (req, res, next) => {
                 };
             }),
             mode: 'payment',
-            success_url: req.protocol + '://' + req.get('host') + '/checkout?step=review',
+            success_url: req.protocol + '://' + req.get('host') + '/checkout?step=order-placement',
             cancel_url: req.protocol + '://' + req.get('host') + '/checkout?step=payment',
         });
 
@@ -51,9 +51,12 @@ const show = async (req, res, next) => {
 
 const postSaveAddress = async (req, res, next) => {
     const addressId    = req.body.addressId;
-    const isNewAddress = addressId == -1;
+    const isNewAddress = addressId == -1 || !addressId;
 
     if (isNewAddress) {
+        // TODO Handle fields not validated in the FD, for example, not filled;
+        // Search for Async/Await error handling;
+        // TODO Can this be done in a single step?
         const newAddress = await Address
             .create({
                 name    : req.body.name,
@@ -64,10 +67,10 @@ const postSaveAddress = async (req, res, next) => {
                 country : req.body.country,
                 isMain  : req.body.shouldSetAsMain,
             });
-        await req.session.user.cart.setShippingAddress(newAdress);
+        await req.session.user.cart.setShippingAddress(newAddress);
 
         if (req.body.shouldSaveAddress) {
-            await req.session.user.addAddress(newAdress);
+            await req.session.user.addAddress(newAddress);
         }
 
         res.json({
@@ -114,10 +117,10 @@ const postSetBillingAddress = async (req, res, next) => {
             isMain  : req.body.shouldSetAsMain,
         });
 
-        await req.session.user.cart.setBillingAddress(newAdress);
+        await req.session.user.cart.setBillingAddress(newAddress);
 
         if (req.body.shouldSaveAddress) {
-            await req.session.user.addAddress(newAdress);
+            await req.session.user.addAddress(newAddress);
         }
 
         res.json({
