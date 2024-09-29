@@ -1,27 +1,33 @@
-form(action=`${formAction}` class="user-address" method="POST")
+form.needs-valitation(action=`${formAction}` class="user-address" method="POST" novalidate)
     .form-group
-        input(type="hidden", class="form-control", name="id", value=`${address.id || -1}`)
-        div.name-ctnr
-            input(type="text", class="form-control", name="name",   value=`${address.name || ''}` placeholder="Address Name")
-            .error-msg
-        div.street-ctnr
-            input(type="text", class="form-control", name="street", value=`${address.street || ''}` placeholder="Street")
-            .error-msg
-        div.city-ctnr
-            input(type="text", class="form-control", name="city",   value=`${address.city || ''}` placeholder="City")
-            .error-msg
-        div.state-ctnr
-            input(type="text", class="form-control", name="state",  value=`${address.state || ''}` placeholder="State")
-            .error-msg
-        div.zip-ctnr
-            input(type="text", class="form-control", name="zip",    value=`${address.zip || ''}` placeholder="Zip")
-            .error-msg
-        div.country-ctnr
-            input(type="text", class="form-control", name="country" value=`${address.country || ''}` placeholder="Country")
-            .error-msg
-        div.is-main-ctnr
-            input(type="checkbox", class="form-control", name="is-main", checked=address.isMain)
-        div Set as main address
+        input(type="hidden" name="id", value=`${address.id || -1}`)
+        .row
+            .mb-3.col-md-6
+                label(for="address-name") Address name
+                input#address-name.form-control(type="text", name="name",   value=`${address.name || ''}`)
+            .mb-3.col-md-6
+                label(for="street") Street
+                input#street.form-control(type="text", name="street", value=`${address.street || ''}`)
+        .row
+            .mb-3.col-md-6
+                label(for="city") City
+                input#city.form-control(type="text", name="city",   value=`${address.city || ''}`)
+            .mb-3.col-md-6
+                label(for="state") State
+                input#state.form-control(type="text", name="state",  value=`${address.state || ''}`)
+        .row
+            .mb-3.col-md-6
+                label(for="zip") ZIP Code
+                input#zip.form-control(type="text", name="zip",    value=`${address.zip || ''}`)
+            .mb-3.col-md-6
+                label(for="country") Country
+                input#country.form-control(type="text" name="country" value=`${address.country || ''}`)
+        .row
+            .mb-3.col-12.form-check
+                input#should-set-as-main.form-check-input.should-set-as-main(type="checkbox", name="is-main", checked=address.isMain)
+                label.form-check-label(for="should-save-address") Set as main address
     div.buttons
-        button(type="submit", class="submit-address") Save
-        a(href="/account/addresses") Back
+        button.btn.btn-primary.m-1(type="submit", class="submit-address") 
+            | Save
+        a.btn.btn-danger.m-1(href="/account/addresses")
+            | Back

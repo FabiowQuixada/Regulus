@@ -7,5 +7,5 @@ block styles
     link(rel='stylesheet', href='/css/form.css')
 
 block content 
-    div #{mode === 'new' ? 'New Address' : 'Edit Address'}
+    .container #{mode === 'new' ? 'New Address' : 'Edit Address'}
         include ./form

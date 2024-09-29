@@ -4,11 +4,11 @@ block content
     h1 My Orders
 
     each order in orderList
-        header.card__header
-            h1 Order ##{order.id}
+        header.border.border-info.rounded-3.p-3.m-3
+            h5 Order ##{order.id}
             each product in order.products
-                .card__image
+                div
                     img(src=`${product.imagePath}`, alt=`${product.title}`)
-                .card__content
-                    h2.product__price #{product.price}
-                    p.product__description Quantity: #{product.productLineItem.quantity}
+                div
+                    div #{product.price.format()}
+                    div Quantity: #{product.productLineItem.quantity}

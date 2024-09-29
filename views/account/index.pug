@@ -6,13 +6,15 @@ block styles
 block content 
     h1 My Account
 
-    div Edit my Data
-    div 
-        if lastOrder
-            h3 Last order
-            div Order ##{lastOrder.id} (#{lastOrder.createdAt})
-        a(href="/account/orders") See All Orders
-
-    div My Payment methods
-    div 
-        a(href="/account/addresses") My Addresses
+    .container
+        .row
+            .border.border-info.rounded-3.p-3.m-1.col-6 Edit my Data
+            .border.border-info.rounded-3.p-3.m-1.col-6
+                if lastOrder
+                    h3 Last order
+                    div Order ##{lastOrder.id} (#{lastOrder.createdAt})
+                a(href="/account/orders") See All Orders
+        .row
+            .border.border-info.rounded-3.p-3.m-1.col-6 My Payment methods
+            .border.border-info.rounded-3.p-3.m-1.col-6
+                a(href="/account/addresses") My Addresses
