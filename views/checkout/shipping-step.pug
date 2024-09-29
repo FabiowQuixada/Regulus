@@ -1,4 +1,4 @@
-section.checkout-step
+section.border.border-info.rounded-3.p-3
     h3 Shipment
     div
         h4 Shipping Address
@@ -6,9 +6,9 @@ section.checkout-step
         //- Used for reference in the billing step
         input.selected-shipping-address-id(type="hidden", value=`${cart.shippingAddressId || ''}`)
 
-        section.select-address
+        section.select-address.mb-5
             form.shipping-address.needs-validation(action="/checkout/select-shipping-address" method="POST" novalidate)
-                div.address-list-container
+                div.mb-3
                     each address in addressList
                         .address-tile.form-check
                             input.select-address.form-check-input(type="radio", name="shipping-address-id", value=address.id, id=`shipping-address-${address.id}`, checked=address.isMain)
@@ -22,7 +22,7 @@ section.checkout-step
                         input.form-check-input.select-address(type="radio", name="shipping-address-id", id="shipping-address-new" value="-1")
                         label.line-1.form-check-label(for="shipping-address-new") Use new address
 
-                .new-shipping-address-form-ctnr.container.d-none
+                .new-shipping-address-form-ctnr.container.d-none.mb-3
                     include ./shipping-address-form
 
                 div.buttons
@@ -31,7 +31,7 @@ section.checkout-step
         section.select-shipping-method
             h4 Shipping Method
             form.shipping-method.needs-validation(action="/checkout/set-shipping-method" method="POST" novalidate)
-                .shipping-method-list-container
+                .mb-3
                     each shippingMethod in shippingMethodList
                         .shipping-method-tile.mb-3.form-check
                             input.form-check-input(type="radio", id=`shipping-method-${shippingMethod.id}` name="shipping-method-id", value=shippingMethod.id)

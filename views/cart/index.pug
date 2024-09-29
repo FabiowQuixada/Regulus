@@ -13,7 +13,7 @@ block content
             .main.d-flex.flex-column.col-md-9
                 if cart.products.length > 0
                     each product in cart.products
-                        section.product-tile.d-flex.gx-5
+                        section.product-tile.d-flex.gx-5.border.border-info.rounded-3.p-3.m-2
                             .card__image.p-3.col-2
                                 img(src=`${product.imageUrl}`, alt=`${product.title}`)
                             .card__content.p-3.col-8
