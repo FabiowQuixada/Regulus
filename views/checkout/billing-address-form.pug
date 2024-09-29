@@ -1,0 +1,24 @@
+.mb-3
+    label(for="address-name") Address Name
+    input#address-name.name.form-control(type="text", name="name")
+.mb-3
+    label(for="street") Street
+    input#street.street.form-control(type="text", name="street")
+.mb-3
+    label(for="city") City
+    input#city.city.form-control(type="text", name="city")
+.mb-3
+    label(for="state") State
+    input#state.state.form-control(type="text", name="state")
+.mb-3
+    label(for="zip") ZIP Code
+    input#zip.zip.form-control(type="text", name="zip")
+.mb-3
+    label(for="country") Country
+    input#country.country.form-control(type="text", name="country")
+.mb-3.form-check
+    input#should-save-address.should-save-address.form-check-input(type="checkbox", name="should-save-address")
+    label.form-check-label(for="should-save-address") Save address
+.mb-3.form-check
+    input#should-set-as-main.form-check-input.should-set-as-main(type="checkbox", name="is-main")
+    label.form-check-label(for="should-set-as-main") Set as main address

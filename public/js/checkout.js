@@ -59,11 +59,7 @@ $('form.shipping-method-form').on('submit', e => {
 $('.use-same-as-shipping-address').on('change', () => {
     const isChecked = $('.use-same-as-shipping-address').is(':checked');
 
-    if (isChecked) {
-        $('.billing-form-fields').attr('status', 'unselected');
-    } else {
-        $('.billing-form-fields').attr('status', 'selected');
-    }
+    $('.billing-form-fields').toggleClass('d-none', isChecked);
 });
 
 $('form.billing-address-form').on('submit', e => {
