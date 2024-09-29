@@ -19,6 +19,8 @@ block navigation
                         ul.dropdown-menu
                             if isUserLoggedIn
                                 li.nav-item
+                                    a(href="/account") My Account
+                                li.nav-item
                                     a(href="#") Personal Info
                                 li.nav-item
                                     a(href="/account/orders") My Orders
@@ -36,6 +38,8 @@ block navigation
                                     a(href='/login', class=(path === '/login' ? 'active' : '')) Login
                                 li.nav-item
                                     a(href='/signup', class=(path === '/signup' ? 'active' : '')) Signup
+                    li.nav-item.d-block.d-md-none
+                        a(href="/account") My Account
                     li.nav-item.d-block.d-md-none
                         a(href="#") Personal Info
                     li.nav-item.d-block.d-md-none
