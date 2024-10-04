@@ -1,17 +1,16 @@
 section.border.border-info.rounded-3.p-3
     h3 Order Summary
-    //- if cart.productList.length > 0
-    //-     each product in cart.productList
-    //-         header.card__header
-    //-             h1.product__title #{product.title} (#{product.id})
-    //-             .card__image
-    //-                 img(src=`${product.imageUrl}`, alt=`${product.title}`)
-    //-             .card__content
-    //-                 h2.product__price #{product.price}
-    //-                 p.product__description Quantity: #{product.productLineItem.quantity}
-    //-             .card__actions
 
-    .mb-3
+    if cart.products.length > 0
+        each product in cart.products
+            div
+                #{product.title}
+            div
+                img(src=`${product.imageUrl}`, alt=`${product.title}`)
+            div
+                div #{product.price.format()}
+                div Quantity: #{product.productLineItem.quantity}
+    .my-3
         .row 
             .col-6
                 | Shipment:

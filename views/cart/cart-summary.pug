@@ -1,24 +1,26 @@
 section.border.border-info.rounded-3.p-3.mb-3
     h5 Cart Summary
-    //- if cart.productList.length > 0
-    //-     each product in cart.productList
-    //-         header.card__header
-    //-             h1.product__title #{product.title} (#{product.id})
-    //-             .card__image
-    //-                 img(src=`${product.imageUrl}`, alt=`${product.title}`)
-    //-             .card__content
-    //-                 h2.product__price #{product.price}
-    //-                 p.product__description Quantity: #{product.productLineItem.quantity}
-    //-             .card__actions
 
-    .mb-3
+    if cart.products.length > 0
+        each product in cart.products
+            div
+                #{product.title}
+            div
+                img(src=`${product.imageUrl}`, alt=`${product.title}`)
+            div
+                div #{product.price.format()}
+                div Quantity: #{product.productLineItem.quantity}
+    .my-3
         .row 
             .col-6
                 | Shipment:
             .col-6.text-end
-                div #{cart.getShppingCost() ? cart.getShppingCost().format() : '--'}
+                | #{cart.getShppingCost() ? cart.getShppingCost().format() : '--'}
         .row 
             .col-6
                 | Total:
             .col-6.text-end
-                div #{cart.getTotalPrice().format()}
+                | #{cart.getTotalPrice().format()}
+
+    a.btn.btn-primary(href='/checkout') 
+        | Continue to Checkout
