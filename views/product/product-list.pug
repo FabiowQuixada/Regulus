@@ -5,20 +5,20 @@ block styles
 
 block content
     if productList.length > 0
-        .container
-            .row
+        .container.mt-5
+            .row.justify-content-center
                 each product, index in productList
-                    article.product-tile.d-flex.flex-column.col.text-center
+                    article.product-tile.col.text-center.p-2
                         .product-tile__image
                             a(href=`/products/${product.id}`)
                                 img(src=`${product.imagePath}`, alt=`${product.title}`) 
-                        .product-tile__title
+                        .m-2
                             a(href=`/products/${product.id}`)
                                 div.product__title #{product.title}
                         //- div #{product.imagePath}
-                        .product-tile__content
+                        .m-2
                             div.product__price #{product.price.format()}
-                        .product-tile__actions
+                        .m-2
                             include ../includes/product/add-to-cart
     else
         h1 No products
